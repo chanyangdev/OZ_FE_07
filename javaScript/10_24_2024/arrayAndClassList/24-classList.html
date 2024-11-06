@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>클래스 리스트</title>
+  <style>
+    .hungry {
+      max-width: 50%;
+      max-height: 50%;
+    }
+  </style>
+</head>
+<body>
+<img src="/images/napoleon-at-brienne-16149.jpg" alt="napoleon-at-brienne">
+<br>
+<button id="add">ADD STYLE</button>
+<button id="remove">REMOVE STYLE</button>
+<button id="toggle">TOGGLE STYLE</button>
+
+  <script>
+const img = document.querySelector("img");
+const addBtn = document.querySelector("#add");
+const removeBtn = document.querySelector("#remove");
+const toggleBtn = document.querySelector("#toggle");
+
+console.log(img.classList);
+
+addBtn.addEventListener("click", function(){
+  img.classList.add("hungry")
+  console.log(img.classList.contains("hungry"))
+})
+
+removeBtn.addEventListener("click", function(){
+  img.classList.remove("hungry")
+  console.log(img.classList.contains("hungry"))
+})
+
+toggleBtn.addEventListener("click", function(){
+  img.classList.toggle("hungry")
+  console.log(img.classList.contains("hungry"))
+})
+
+  </script>
+</body>
+</html>
+

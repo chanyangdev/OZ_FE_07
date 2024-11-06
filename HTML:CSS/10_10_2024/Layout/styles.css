@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+ul {
+    list-style: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+#wrap {
+    width: 100%;
+}
+
+/* header section */
+header {
+    width: 100%;
+    height: 100px;
+    background-color: palegoldenrod;
+    float: left;
+}
+
+#in_header {
+    width: 1200px;
+    height: 100%;
+    background-color: orange;
+    margin: 0 auto;
+    text-align: center; /* 텍스트를 가운데 정렬 */
+    font-size: 20px; /* 글자 크기 */
+    font-weight: 900; /* 글자 두께 */
+    line-height: 100px; /* 줄 높이 */
+}
+
+#logo {
+    width: 200px;
+    height: 100px;
+    background-color: aliceblue;
+    float: left;
+}
+
+#gnb {
+    width: 900px;
+    height: 100%;
+    background-color: aliceblue;
+    float: right;
+}
+
+#gnb > li {
+    width: 20%;
+    height: 100%;
+    float: left;
+  }
+
+    /* 헤더 끝 */
+
+    /* first section */
+#section_1 {
+    width: 100%;
+    height: 400px;
+    background-color: papayawhip;
+    float: left;
+}
+
+/* second section */
+#section_2 {
+    width: 100%;
+    background-color: palegoldenrod;
+    float: left;
+    padding: 50px 0;
+}
+
+/* second section container */
+.container {
+    width: 1200px;
+    height: 100%;
+    background-color: paleturquoise;
+    margin: 0 auto;
+    overflow: hidden;
+}
+
+/* circles */
+.circle {
+    width: 262.5px;
+    height: 262.5px;
+    border: 1px solid black;
+    box-sizing: border-box;
+    border-radius: 50%;
+    float: left;
+    margin-right: 50px;
+}
+
+.circle:last-child {
+    margin-right: 0;
+}
+
+/* third section */
+#section_3 {
+    width: 100%;
+    height: 1700px;
+    background-color: aliceblue;
+    float: left;
+    padding-bottom: 50px;
+}
+
+/* wrapping contents within third section */
+.con_wrap {
+    width: 386.666px;
+    height: 100%;
+    background-color: aqua;
+    float: left;
+    margin-right: 20px;
+}
+
+/* remove right margin of last content wrapper */
+.con_wrap:last-child {
+    margin-right: 0;
+}
+
+/* list items within content wrapper */
+.con_wrap > li {
+    width: 100%;
+    height: 500px;
+    background-color: palegreen;
+}
+
+/* long box styling */
+.con_wrap > .long_box {
+    width: 600px;
+    background-color: rgb(255,255,149);
+}
+
+/* box styling with margin */
+.m_box {
+    margin: 50px 0;
+}
+
+/* end of third section */
+
+/* top button */
+#top_btn {
+    width: 50px;
+    height: 50px;
+    background-color: palevioletred;
+    position: fixed;
+    bottom: 100px;
+    right: 100px;
+    font: 900 20px/50px '';
+    text-align: center;
+}
+
+/* set button link to block */
+#top_btn a {
+    display: block;
+}
+

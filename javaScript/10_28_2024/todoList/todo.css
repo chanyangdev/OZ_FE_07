@@ -1,0 +1,128 @@
+
+@font-face {
+  font-family: 'Dongle-Regular';
+  src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2108_2@1.0/Dongle-Regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+} /* imports custom font called Dongle-Regular from an external URL and makes it availble in the styles*/
+
+*{
+  font-family: 'Dongle-Regular';
+  box-sizing: border-box;
+} /* set default for all elements. applies box-sizing: border-box so padding and borders don't increase an element's overall width and height */
+
+html{
+  font-size: 18px;
+} 
+
+body{
+  margin: 0; 
+} /* removes any default margin from body */
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+} /* centers its contents (the app) vertically and horizontally, filling the entire viewport height (100vh) */
+
+.app{
+  position: relative;
+  width: 320px;
+  height: 568px;
+  border-radius: 16px;
+  background-color: rgb(171, 193, 209);
+} /* defines the main container's size and shape, setting a soft blue background and rounded corners */
+
+.app  > h1{
+  font-size: 2em;
+  text-align: center;
+  margin: 10px 5px;
+  border-bottom: 0.5px solid rgb(234, 234, 234);
+} /* styles the app's header to center the text, add spacing, and underline it with a light border */
+
+ul{
+  max-height: 420px;
+  overflow: auto;
+}
+
+ul > li{
+  cursor: pointer;
+  position: relative;
+  left: 60px;
+  list-style-type: none;
+  width: 200px;
+  height: 40px;
+  margin-bottom: 10px;
+  padding: 6px;
+  background-color: rgb(254, 229, 77);
+  border-radius: 8px;
+}
+
+ul > li::after{
+  content: "";
+  position: absolute;
+  top: 10px;
+  right: -10px;
+  width: 0;
+  height: 0; 
+  border-bottom: 16px solid transparent;
+  border-left: 16px solid rgb(254, 229, 77);
+}
+
+/* ul: limits the height of the list with max-height: 420px and enables scrolling with overflow: auto
+li: each list item (<li>) has a background color, rounded corners, and a pseudo-element (::after) creating a small triangle on the right side */
+
+ul > li > span{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px; 
+  height: 16px;
+  border-radius: 8px;
+  background-color: rgb(234, 234, 234);
+  position: absolute;
+  left: -20px;
+  bottom: 2px;
+}
+
+/* span within each list item serves as a small circular element to the left, positioned with absolute */
+
+form{
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  bottom: 0;
+}
+input{
+  font-size: 1.4em;
+  margin: 0;
+  border: none;
+  height: 45px;
+}
+input[type="text"]{
+  width: 240px;
+  padding-left: 10px;
+}
+input[type="text"]:focus{
+  outline: none;
+}
+input[type="submit"]{
+  cursor: pointer;
+  width: 80px;
+  border-radius: 8px;
+  background-color: rgb(254, 229, 77);
+}
+
+/* form: positioned at the bottom of the app
+input fields: styled for the text field (type="text") and submit buttons separately, with emphasis on removing default borders and adding a rounded, colored background. */
+
+.done{
+  color: rgb(93, 93, 93);
+  background-color: rgb(234, 234, 234);
+}
+
+.done::after{
+  border-left: 16px solid rgb(234, 234, 234);
+}
+
+/* .done is a class applied to completed tasks, giving them a muted color and adjusting the right triangle color accordingly */

@@ -1,0 +1,122 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box; /* Ensures padding and border are included in element's total width and height */
+  background-color: #282a36; /* Sets background color for the entire page */
+  font-size: 16px; /* Sets the base font size */
+}
+
+/* Ensures HTML and body take up at least the full height of the viewport */
+html, body {
+  min-height: 100vh;
+}
+
+body {
+  display: flex; /* Enables Flexbox for centering */
+  justify-content: center; /* Centers content horizontally */
+  align-items: center; /* Centers content vertically */
+}
+
+.calculator-container {
+  display: flex; /* Enables Flexbox for layout */
+  flex-direction: column; /* Stacks child elements vertically */
+  border: 2px solid #44475a; /* Adds a border around the calculator */
+  border-radius: 25px; /* Makes the calculator rounded */
+  padding: 20px; /* Adds space inside the container */
+  width: 500px; /* Sets the calculator width */
+  height: 800px; /* Sets the calculator height */
+}
+
+#display {
+  border: 2px solid #44475a; /* Adds a border around the display area */
+  width: 100%; /* Makes the display take up the full container width */
+  height: 150px; /* Sets the display height */
+  padding: 15px; /* Adds padding inside the display */
+  padding-top: 35px; /* Adds extra space above the text in the display */;
+  margin-bottom: 10px; /* Adds space below the display */
+  color: #50fa7b	; /* Sets the display text color */
+  text-align: right; /* Aligns text to the right inside the display */
+  font-size: 3rem; /* Sets a large font size for the display */
+  border-radius: 25px; /* Makes the display rounded */
+
+  /* Prevents overflow on display */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Truncates text if it overflows */
+  white-space: nowrap; /* Prevents text wrapping */
+}
+
+.keys {
+  display: flex; /* Enables Flexbox for button alignment */
+  flex-direction: row; /* Aligns buttons in rows */
+  flex-wrap: wrap; /* Allows buttons to wrap onto new lines */
+  align-items: center; /* Centers buttons vertically */
+  justify-content: center; /* Centers buttons horizontally */
+  gap: 10px; /* Adds space between buttons */
+  padding: 10px; /* Adds padding inside the button container */
+  border: 2px solid #44475a; /* Adds a border around the button section */
+  width: 100%; /* Makes the button section take up full width of container */
+  height: 700px; /* Sets a fixed height for the button section */
+  margin-top: 10px; /* Adds space above the button section */
+  border-radius: 25px; /* Makes the button section rounded */
+}
+
+.button {
+  width: 100px; /* Sets standard button width */
+  height: 100px; /* Sets standard button height */
+  border-radius: 25px; /* Makes buttons circular */
+  border: none; /* Removes default border */
+  background-color: #44475a; /* Sets button background color */
+  color: #f8f8f2; /* Sets button text color */
+  font-size: 3rem; /* Sets large font size for button text */
+  cursor: pointer; /* Changes cursor to pointer on hover */;
+}
+
+.button:hover {
+  background-color: #bd93f9; /* Changes button background color on hover */
+}
+
+.button:active {
+background-color: #44475a;  /* Changes button background color on focus */
+transition: background-color 0.1s;
+}
+
+.zero {
+  flex-grow: 2; /* Expands button to fill available space */
+}
+
+.threeButtons {
+  display: flex; /* Enables Flexbox for alignment */
+  justify-content: space-between; /* Distributes small buttons evenly */
+  width: 60px; /* Sets width for the group of small buttons */
+  align-items: left; /* Aligns items to the left */
+  padding-bottom: 10px; /* Adds space below the small buttons */
+  padding-left: 5px; /* Adds space to the left of the small buttons */
+}
+
+/* Styling for each of the small buttons (button1, button2, and button3) */
+.button1 {
+  height: 15px; /* Sets button height */
+  width: 15px; /* Sets button width */
+  background-color: #ff5555; /* Sets button color */
+  border-radius: 50%; /* Makes button circular */
+  display: inline-block; /* Allows button to be inline */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+}
+
+.button2 {
+  height: 15px; /* Sets button height */
+  width: 15px; /* Sets button width */
+  background-color: #f1fa8c; /* Sets button color */
+  border-radius: 50%; /* Makes button circular */
+  display: inline-block; /* Allows button to be inline */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+}
+
+.button3 {
+  height: 15px; /* Sets button height */
+  width: 15px; /* Sets button width */
+  background-color: #50fa7b; /* Sets button color */
+  border-radius: 50%; /* Makes button circular */
+  display: inline-block; /* Allows button to be inline */
+  cursor: pointer; /* Changes cursor to pointer on hover */
+}

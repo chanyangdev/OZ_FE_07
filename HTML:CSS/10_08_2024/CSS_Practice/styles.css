@@ -1,0 +1,84 @@
+body {
+    font-family: "consolas",sans-serif;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
+    margin: 0px;
+}
+
+h1 {
+    font-family: "press Start 2P", "consolas", sans-serif;
+    font-style: italic;
+    font-weight: bold;
+    text-decoration: cyan dotted underline;
+    font-size: 18px;
+    background: linear-gradient(to right, skyblue, lightgreen);
+background-repeat: no-repeat;
+background-attachment: fixed;
+}
+
+#paragraph {
+    font-size: 50px;
+    border-style: outset;
+    border-width: 5px;
+    border-color: gold;
+    border-radius: 10px;
+    padding: 5px;
+    background: linear-gradient(to right, skyblue, lightgreen);
+background-repeat: no-repeat;
+background-attachment: fixed;
+}
+
+.p2 {
+    color: blue;
+    text-align: center;
+}
+
+.p3 {
+    color: red;
+    text-align: right;
+}
+
+.p4 {
+    color: aqua;
+    text-align: left;
+}
+
+#box1 {
+    border: 5px solid;
+    width: 250px;
+    height: 250px;
+    font-size: 22px;
+    background: greenyellow;
+    padding: 50px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#box2 {
+    width: 150px;
+    height: 250px;
+    border: 5px solid;
+    font-size: 22px;
+    padding: 10px;
+    background: dodgerblue;
+    padding: 50px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    overflow: hidden;
+}
+
+img {
+    border: 5px solid red;
+    float: left;
+    display: block;;
+    width: 25%;
+    padding: 50px;
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+}
+

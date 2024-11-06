@@ -1,0 +1,39 @@
+/* Basic body styling */
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+}
+
+/* Container for the globe */
+.globe-container {
+    width: 250px;
+    height: 250px;
+    position: relative;
+}
+
+/* The globe itself */
+.globe {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-image: url('/images/Whole_world_North_gy.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: grayscale(0%);
+    animation: rotate 10s infinite linear;
+    border: 2px solid white;
+}
+
+/* Animation to rotate the globe */
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

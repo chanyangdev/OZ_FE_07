@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Application</title>
+    <link rel="stylesheet" href="styles.css"> 
+</head>
+
+<body>
+    <div class="chat-container">
+        <header class="chat-header">
+            <h2>Chat Room</h2>
+        </header>
+        <div class="chat-box" id="chat-box">
+            <!-- Chat messages will appear here -->
+            <div class="message left">
+                <p>
+                    <span class="username">User1:</span> 
+                    Hello, how are you?
+                </p>
+            </div>
+            <div class="message right">
+                <p><span class="username">User2:</span> I'm good, thank you! And you?</p>
+            </div>
+        </div>
+        <div class="chat-input">
+            <input type="text" id="message-input" placeholder="Type a message..." autocomplete="off">
+            <button id="send-btn">Send</button>
+        </div>
+    </div>
+</body>
+</html>
