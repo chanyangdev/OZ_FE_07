@@ -1,2 +1,2 @@
 # OZ_FE_07
-Oz Coding School Front End 7기 
+Oz Coding School Frontend 7기 
