@@ -40,3 +40,23 @@
 .read-the-docs {
   color: #888;
 }
+
+.bread{
+  background-color: orange;
+}
+
+.patty {
+  background: brown;
+}
+
+.lettace {
+  background: green;
+}
+
+.cheese {
+  background: yellow;
+} 
+
+.tomato {
+  background: red;
+}
