@@ -93,8 +93,34 @@ XSS(교차 사이트 스크립팅)로 인해 공격자가 다른 사용자가 �
 - GitHub
 - Facebook
 
+## MPA (Multple Page Application)
+### 개념
+- 웹 개발을 개발하는 전통적인 traditional way of developing websites
+- application comprised of multiple pages
+### 작동 방식 how does it work?
+- whenever a new page is requested, the resources (HTML, CSS, JavaScript) files are downloaded from the server
+- whenever a page is changed or refreshed, the whole page is rerendered
+- MPA is a SSR(Server Side Application) way of rendering
+### 장점 benefits
+1. SEO Friendly 친화적
+Multiple pages can be created using MPA, therefore we can target many key words. 이렇게 하면 구글 에서 얻을 수 있는 유기적 트래픽의 양이 자동으로 향상된다. 더 많은 페이지로 인해 여러 HTML 파일이 존재 하는데, HTML 다운로드 하여 페이지를 스크롤링 하기 떄문에 검색 엔진이 작동하는 방식에 더 적합하다. 
+2. 확장성
+다중 페이지로 원하는 만큼 페이지를 추가할 수 있다. (ex. Amazon 사용할수 있는 제품의 수는 원하는 만큼 contents 추가)
+### 단점 weaknesses
+1. 페이지 이동 시 느린 속도
+Due to the fact that the whole page has to be rerendered, MPA lacks in speed. HTML, CSS, JS와 같은 리소스들이 새로 고쳐져서 속도에 영향을 받는다.
+2. 복잡한 개발
+개발자는 클라이언트 측과 서버 측 모두에 프레임워크를 사용해야 합니다. 그 결과 애플리케이션 개발 시간이 더 길어진다. The developer has to incorporate this into the client and server side. It will take longer to develop the application. 
+3. 보안 및 유지보수
+개발자는 모든 페이지가 안전한지 확인 해야 하는데 페이지가 많아서 지속적으로 유지보수 하는 것이 어려움. Since the developer has to check on multipages, it is harder to maintain.
+#### 예시
+- Amazon
+제품이나 카테고리를 보려고 할 떄 페이지가 동일하게 유지되도록 요구하지 않는다. 매우 큰 전자 상거래 사이트를 구축할 생각이라면 MPA architecture를 선택해야 한다. MPA는 연속적인 접근이 필요하지 않은 복잡한 웹사이트에 가장 적합하다. 
+## 결론
+SPA and MPA both provide different ways for users to experience the website. 사용자 경험 측면에서 MPA와 SPA는 모두 훌륭하며 앱을 만들기 위해 염두에 두고 있는 목표를 기반으로 하는 이 차이는 주관적이다. 각각 장단점이 있으며 사용 사례와 상황에 맞는 것을 선택하는 것이 사용자에게 빠르고 안정적인 경험을 제공할 수있다.
 
-
+Amazon, Ebay같은 여러 제품 및 서비스를 다루는 전자 상거래 상점 or 다른 많은 콘첸츠가 필요하면 MPA
+민첩한 소셜 플랫폼을 만들고 싶다면 SPA
 
 ### Remember for React!
 상태 밴경 함수 샐행 => 상태 변경 인지 => 변경된 상태를 사용하는 컴포넌트만 업데이트
