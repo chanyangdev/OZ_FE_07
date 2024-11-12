@@ -33,7 +33,7 @@ class Count extends Component {
 }
 ```
 # State 끌어올리기
-![React Video Screenshot](./images/screenshot.png)
+![React Video Screenshot](../images/screenshot.png))
 ```js
 class ClassApp extends Component {
   state = { counter: 1 };
