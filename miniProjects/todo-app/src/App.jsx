@@ -1,36 +1,44 @@
 import { useState, useEffect } from "react";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css"; // Import the styles
 
 function App() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState('');
-  const [dueDate, setDueDate] = useState('');
+  const [dueDate, setDueDate] = useState(null); // Start with null for better control
   const [filter, setFilter] = useState('all');
 
-  // Load todos from localStorage when the component mounts
   useEffect(() => {
     const storedTodos = localStorage.getItem('todos');
     if (storedTodos) {
       try {
-        setTodos(JSON.parse(storedTodos)); // Parse the stored JSON string and set it to state
+        setTodos(JSON.parse(storedTodos));
       } catch (error) {
         console.error("Error parsing local storage todos:", error);
       }
     }
   }, []);
 
-  // Save todos to localStorage whenever the todos list changes
   useEffect(() => {
     if (todos.length > 0) {
-      localStorage.setItem('todos', JSON.stringify(todos)); // Convert todos to JSON and save
+      localStorage.setItem('todos', JSON.stringify(todos));
     }
   }, [todos]);
 
-  // Function to add a new todo
   const addTodo = () => {
     if (input.trim()) {
-      setTodos([...todos, { id: Date.now(), text: input, completed: false, isEditing: false, dueDate }]);
+      setTodos([
+        ...todos,
+        {
+          id: Date.now(),
+          text: input,
+          completed: false,
+          isEditing: false,
+          dueDate,
+        },
+      ]);
       setInput('');
-      setDueDate(''); // Clear the input and due date after adding the todo
+      setDueDate(null); // Reset the date after adding
     }
   };
 
@@ -41,15 +49,19 @@ function App() {
   };
 
   const toggleEdit = (id) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, isEditing: true } : todo
-    ));
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, isEditing: true } : todo
+      )
+    );
   };
 
   const saveEdit = (id, newText) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, text: newText, isEditing: false } : todo
-    ));
+    setTodos(
+      todos.map((todo) =>
+        todo.id === id ? { ...todo, text: newText, isEditing: false } : todo
+      )
+    );
   };
 
   const handleEditKeyDown = (event, id) => {
@@ -59,15 +71,13 @@ function App() {
     }
   };
 
-  // Function to delete a todo
   const deleteTodo = (id) => {
-    const updatedTodos = todos.filter(todo => todo.id !== id); // Remove the todo from the list
-    setTodos(updatedTodos); // Update the state
-    localStorage.setItem('todos', JSON.stringify(updatedTodos)); // Immediately sync to localStorage
+    const updatedTodos = todos.filter((todo) => todo.id !== id);
+    setTodos(updatedTodos);
+    localStorage.setItem('todos', JSON.stringify(updatedTodos));
   };
 
-  // Filter todos based on the selected filter ('all', 'completed', 'uncompleted')
-  const filteredTodos = todos.filter(todo => {
+  const filteredTodos = todos.filter((todo) => {
     if (filter === 'completed') return todo.completed;
     if (filter === 'uncompleted') return !todo.completed;
     return true;
@@ -80,7 +90,6 @@ function App() {
           Todo List 📝
         </h1>
 
-        {/* Add Todo Section */}
         <div className="mb-6">
           <input
             value={input}
@@ -89,12 +98,13 @@ function App() {
             placeholder="Add a new task"
             className="w-full h-12 p-3 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          
-          {/* Date Picker for Due Date */}
-          <input
-            type="date"
-            value={dueDate}
-            onChange={(e) => setDueDate(e.target.value)} // Set due date from input
+
+          {/* Custom Date Picker */}
+          <DatePicker
+            selected={dueDate} // Controlled date picker value
+            onChange={(date) => setDueDate(date)} // Handle date change
+            dateFormat="MMMM d, yyyy" // Change the format as needed
+            placeholderText="Select a due date"
             className="w-full mt-4 h-12 p-3 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
@@ -165,7 +175,7 @@ function App() {
                 {todo.isEditing ? 'Save' : 'Edit'}
               </button>
               <button
-                onClick={() => deleteTodo(todo.id)} // Call the delete function
+                onClick={() => deleteTodo(todo.id)}
                 className="ml-3 px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
               >
                 Delete
