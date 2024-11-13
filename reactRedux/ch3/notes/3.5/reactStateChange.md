@@ -13,6 +13,49 @@
 `배열 = [1,2,3]`
 `객체 = {사과: 🍎, 바나나: 🍌}`
 ![react screenshot](../../images/Screenshot%202024-11-13%20at%2010.31.42 AM.png)
+![react class screenshot](../../images/Screenshot%202024-11-13%20at%2010.36.05 AM.png)
+기존 상태를 *재사용*하면서 *주소 값을 바꾸려면?*
+1. 기존 상태를 *복사*해서 가공한다 => `Spread Syntax` `Array.slice()` `Object.assign()`
+2. *새로운 배열*을 리턴하는 *고차 함수 메서드*를 사용한다 => `Array.map()` `Array.filter()`
+## 실습
+### 원시 자요형
+```js
+function App() {
+  let [number, setNumber] = useState(1);
+
+  const handler = () => {
+    setNumber(number + 1);
+  };
+
+  return (
+    <>
+    number : {number}
+    <br />
+    <button onClick={handler}>상태 업데이트!</button>
+    </>
+  );
+}
+```
+### 참조 자료형
+```js
+function App() {
+  let [array, setArray] = useState([1, 2, 3]);
+
+  const handler = () => {
+    const newArray = [...array];
+    newArray.push(5);
+    setArray(newArray);
+  };
+
+  return (
+    <>
+      array : [{array.join(",")}]
+      <br />
+      <button onClick={handler}>상태 업데이트!</button>
+    </>
+  );
+}
+```
 
 
 
