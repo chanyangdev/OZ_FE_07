@@ -3,8 +3,8 @@ import { useState, useEffect } from "react";
 function App() {
   const [todos, setTodos] = useState([]);
   const [input, setInput] = useState('');
+  const [filter, setFilter] = useState('all'); // Filter state
 
-  // Load todos from local storage when the component mounts
   useEffect(() => {
     const storedTodos = localStorage.getItem('todos');
     if (storedTodos) {
@@ -16,14 +16,12 @@ function App() {
     }
   }, []);
 
-  // Save todos to local storage whenever todos change
   useEffect(() => {
     if (todos.length > 0) {
       localStorage.setItem('todos', JSON.stringify(todos));
     }
   }, [todos]);
 
-  // Add isEditing property
   const addTodo = () => {
     if (input.trim()) {
       setTodos([...todos, { id: Date.now(), text: input, completed: false, isEditing: false }]);
@@ -31,68 +29,84 @@ function App() {
     }
   };
 
-  // Handle Enter key press to add the todo
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter') {
+  /**
+   * Handle keydown event when user presses Enter.
+   * If the key is Enter, it will add a new todo item.
+   * @param {KeyboardEvent} event - The keydown event.
+   */
+    if (event.key === 'Enter' && !event.shiftKey) {
       addTodo();
     }
   };
 
-  // Toggle edit mode for a specific todo
   const toggleEdit = (id) => {
     setTodos(todos.map(todo =>
       todo.id === id ? { ...todo, isEditing: true } : todo
     ));
   };
 
-  // Update text while editing
-  const handleEditInputChange = (id, newText) => {
+  const saveEdit = (id, newText) => {
     setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, text: newText } : todo
+      todo.id === id ? { ...todo, text: newText, isEditing: false } : todo
     ));
   };
 
-  // Save changes and exit edit mode
-  const saveEdit = (id) => {
-    setTodos(todos.map(todo =>
-      todo.id === id ? { ...todo, isEditing: false } : todo
-    ));
-  };
-
-  // Handle Enter key press for saving edits
   const handleEditKeyDown = (event, id) => {
     if (event.key === 'Enter') {
-      saveEdit(id);
+      const newText = event.target.value;
+      saveEdit(id, newText);
     }
   };
 
+  // Filter todos
+  const filteredTodos = todos.filter(todo => {
+    if (filter === 'completed') return todo.completed;
+    if (filter === 'uncompleted') return !todo.completed;
+    return true; // 'all' case
+  });
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-emerald-600">
-      <div className="bg-white shadow-lg rounded-3xl p-16">
-        <h1 className="text-3xl font-bold text-center text-gray-900 mb-6">
-          Todo List ✅
+    <div className="min-h-screen flex items-center justify-center bg-[#f4f4f4]"> {/* Light paper-like background */}
+      <div className="w-full max-w-lg bg-[#fafafa] shadow-lg rounded-lg p-8 border-2 border-gray-300">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+          Todo List 📝
         </h1>
 
-        <div className="mb-4 flex">
-          <input
+        {/* Add Todo Section */}
+        <div className="mb-6">
+          <textarea
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={handleKeyDown} // Add this line for Enter key handling
-            type="text"
+            onKeyDown={handleKeyDown}
             placeholder="Add a new task"
-            className="flex-grow px-3 py-2 border rounded-l-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-12 p-3 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-hidden"
           />
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600"
             onClick={addTodo}
+            className="w-full mt-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600"
           >
-            Add
+            Add Task
           </button>
         </div>
 
-        <ul className="space-y-2">
-          {todos.map((todo) => (
-            <li key={todo.id} className="flex items-center p-3 rounded-lg bg-slate-100 border border-gray-200">
+        {/* Filter Buttons */}
+        <div className="flex justify-center mb-6 space-x-4">
+          <button onClick={() => setFilter('all')} className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+            All
+          </button>
+          <button onClick={() => setFilter('completed')} className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+            Completed
+          </button>
+          <button onClick={() => setFilter('uncompleted')} className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+            Uncompleted
+          </button>
+        </div>
+
+        {/* Todo List */}
+        <ul className="space-y-4">
+          {filteredTodos.map((todo) => (
+            <li key={todo.id} className="flex items-center p-4 rounded-md bg-white shadow-md border-2 border-gray-200">
               <input
                 type="checkbox"
                 checked={todo.completed}
@@ -103,16 +117,16 @@ function App() {
                     )
                   )
                 }
-                className="mr-2 h-5 w-5 text-blue-600"
+                className="mr-3 h-5 w-5 text-blue-500"
               />
-
-              {/* Render input or text based on isEditing */}
+              {/* Displaying Editable Text Field or Text */}
               {todo.isEditing ? (
                 <input
-                  value={todo.text}
-                  onChange={(e) => handleEditInputChange(todo.id, e.target.value)}
-                  onKeyDown={(e) => handleEditKeyDown(e, todo.id)} // Add Enter key handling for edit mode
-                  className="flex-grow mr-2 px-2 py-1 border rounded focus:outline-none"
+                  type="text"
+                  defaultValue={todo.text}
+                  onBlur={(e) => saveEdit(todo.id, e.target.value)} // Save on blur
+                  onKeyDown={(e) => handleEditKeyDown(e, todo.id)} // Save on Enter
+                  className="flex-grow p-2 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               ) : (
                 <span
@@ -123,26 +137,15 @@ function App() {
                   {todo.text}
                 </span>
               )}
-
-              {todo.isEditing ? (
-                <button onClick={() => saveEdit(todo.id)}
-                  className="ml-2 p-2 rounded-lg bg-green-500 text-white hover:bg-green-600"
-                >
-                  Save
-                </button>
-              ) : (
-                <button onClick={() => toggleEdit(todo.id)}
-                  className="ml-2 p-2 rounded-lg bg-blue-500 text-white hover:bg-blue-600"
-                >
-                  Edit
-                </button>
-              )}
-
               <button
-                onClick={() =>
-                  setTodos(todos.filter((t) => t.id !== todo.id))
-                }
-                className="ml-2 p-2 rounded-lg bg-red-500 text-white hover:bg-red-600"
+                onClick={() => toggleEdit(todo.id)}
+                className="ml-3 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+              >
+                {todo.isEditing ? 'Save' : 'Edit'}
+              </button>
+              <button
+                onClick={() => setTodos(todos.filter((t) => t.id !== todo.id))}
+                className="ml-3 px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
               >
                 Delete
               </button>
