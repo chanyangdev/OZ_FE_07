@@ -30,11 +30,6 @@ function App() {
   };
 
   const handleKeyDown = (event) => {
-  /**
-   * Handle keydown event when user presses Enter.
-   * If the key is Enter, it will add a new todo item.
-   * @param {KeyboardEvent} event - The keydown event.
-   */
     if (event.key === 'Enter' && !event.shiftKey) {
       addTodo();
     }
@@ -75,12 +70,12 @@ function App() {
 
         {/* Add Todo Section */}
         <div className="mb-6">
-          <textarea
+          <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Add a new task"
-            className="w-full h-12 p-3 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none overflow-hidden"
+            className="w-full h-12 p-3 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button
             onClick={addTodo}
