@@ -59,6 +59,13 @@ function App() {
     ));
   };
 
+  // Handle Enter key press for saving edits
+  const handleEditKeyDown = (event, id) => {
+    if (event.key === 'Enter') {
+      saveEdit(id);
+    }
+  };
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-600 to-emerald-600">
       <div className="bg-white shadow-lg rounded-3xl p-16">
@@ -104,6 +111,7 @@ function App() {
                 <input
                   value={todo.text}
                   onChange={(e) => handleEditInputChange(todo.id, e.target.value)}
+                  onKeyDown={(e) => handleEditKeyDown(e, todo.id)} // Add Enter key handling for edit mode
                   className="flex-grow mr-2 px-2 py-1 border rounded focus:outline-none"
                 />
               ) : (
