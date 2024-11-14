@@ -1,0 +1,4 @@
+/* TodoItem.css */
+.todo-text {
+  flex-grow: 1;
+}
