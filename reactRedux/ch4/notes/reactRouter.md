@@ -90,7 +90,7 @@ function App() {
   const navigate = useNavigate()
   // navigate (?)
   const useLocation()
-  
+
   return (
     <>
       <div>
@@ -106,6 +106,3 @@ function App() {
   );
 }
 ```
-
-
-
