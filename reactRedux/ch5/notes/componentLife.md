@@ -110,7 +110,8 @@ useEffect(() => {
 
 -> 컴포넌트가 **처음 렌더링** 되었을 떄
 -> _배열에 담긴 값이 변경_ 되어서 **리렌더링** 되었을 떄
--componentDidMount
+
+- componentDidMount
 
 - componentDidUpdate
 
