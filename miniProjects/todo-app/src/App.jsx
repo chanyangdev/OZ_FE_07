@@ -4,12 +4,12 @@ import "react-datepicker/dist/react-datepicker.css"; // Import the styles
 
 function App() {
   const [todos, setTodos] = useState([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [dueDate, setDueDate] = useState(null); // Start with null for better control
-  const [filter, setFilter] = useState('all');
+  const [filter, setFilter] = useState("all");
 
   useEffect(() => {
-    const storedTodos = localStorage.getItem('todos');
+    const storedTodos = localStorage.getItem("todos");
     if (storedTodos) {
       try {
         setTodos(JSON.parse(storedTodos));
@@ -21,7 +21,7 @@ function App() {
 
   useEffect(() => {
     if (todos.length > 0) {
-      localStorage.setItem('todos', JSON.stringify(todos));
+      localStorage.setItem("todos", JSON.stringify(todos));
     }
   }, [todos]);
 
@@ -37,13 +37,13 @@ function App() {
           dueDate,
         },
       ]);
-      setInput('');
+      setInput("");
       setDueDate(null); // Reset the date after adding
     }
   };
 
   const handleKeyDown = (event) => {
-    if (event.key === 'Enter' && !event.shiftKey) {
+    if (event.key === "Enter" && !event.shiftKey) {
       addTodo();
     }
   };
@@ -65,7 +65,7 @@ function App() {
   };
 
   const handleEditKeyDown = (event, id) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       const newText = event.target.value;
       saveEdit(id, newText);
     }
@@ -74,19 +74,19 @@ function App() {
   const deleteTodo = (id) => {
     const updatedTodos = todos.filter((todo) => todo.id !== id);
     setTodos(updatedTodos);
-    localStorage.setItem('todos', JSON.stringify(updatedTodos));
+    localStorage.setItem("todos", JSON.stringify(updatedTodos));
   };
 
   const filteredTodos = todos.filter((todo) => {
-    if (filter === 'completed') return todo.completed;
-    if (filter === 'uncompleted') return !todo.completed;
+    if (filter === "completed") return todo.completed;
+    if (filter === "uncompleted") return !todo.completed;
     return true;
   });
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#f4f4f4]">
       <div className="w-full max-w-lg bg-[#fafafa] shadow-lg rounded-lg p-8 border-2 border-gray-300">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+        <h1 className="mb-6 text-3xl font-bold text-center text-gray-800">
           Todo List 📝
         </h1>
 
@@ -96,7 +96,7 @@ function App() {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Add a new task"
-            className="w-full h-12 p-3 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-12 p-3 bg-white border rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           {/* Custom Date Picker */}
@@ -105,12 +105,12 @@ function App() {
             onChange={(date) => setDueDate(date)} // Handle date change
             dateFormat="MMMM d, yyyy" // Change the format as needed
             placeholderText="Select a due date"
-            className="w-full mt-4 h-12 p-3 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full h-12 p-3 mt-4 bg-white border rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
 
           <button
             onClick={addTodo}
-            className="w-full mt-4 py-2 bg-blue-500 text-white rounded-md shadow-md hover:bg-blue-600"
+            className="w-full py-2 mt-4 text-white bg-blue-500 rounded-md shadow-md hover:bg-blue-600"
           >
             Add Task
           </button>
@@ -118,13 +118,22 @@ function App() {
 
         {/* Filter Buttons */}
         <div className="flex justify-center mb-6 space-x-4">
-          <button onClick={() => setFilter('all')} className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+          <button
+            onClick={() => setFilter("all")}
+            className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+          >
             All
           </button>
-          <button onClick={() => setFilter('completed')} className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+          <button
+            onClick={() => setFilter("completed")}
+            className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+          >
             Completed
           </button>
-          <button onClick={() => setFilter('uncompleted')} className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300">
+          <button
+            onClick={() => setFilter("uncompleted")}
+            className="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300"
+          >
             Uncompleted
           </button>
         </div>
@@ -132,7 +141,10 @@ function App() {
         {/* Todo List */}
         <ul className="space-y-4">
           {filteredTodos.map((todo) => (
-            <li key={todo.id} className="flex items-center p-4 rounded-md bg-white shadow-md border-2 border-gray-200">
+            <li
+              key={todo.id}
+              className="flex items-center p-4 bg-white border-2 border-gray-200 rounded-md shadow-md"
+            >
               <input
                 type="checkbox"
                 checked={todo.completed}
@@ -143,7 +155,7 @@ function App() {
                     )
                   )
                 }
-                className="mr-3 h-5 w-5 text-blue-500"
+                className="w-5 h-5 mr-3 text-blue-500"
               />
               {todo.isEditing ? (
                 <input
@@ -151,12 +163,14 @@ function App() {
                   defaultValue={todo.text}
                   onBlur={(e) => saveEdit(todo.id, e.target.value)}
                   onKeyDown={(e) => handleEditKeyDown(e, todo.id)}
-                  className="flex-grow p-2 border rounded-md bg-white shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="flex-grow p-2 bg-white border rounded-md shadow-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
               ) : (
                 <span
                   className={`flex-grow ${
-                    todo.completed ? 'line-through text-gray-500' : 'text-gray-800'
+                    todo.completed
+                      ? "line-through text-gray-500"
+                      : "text-gray-800"
                   }`}
                 >
                   {todo.text}
@@ -165,18 +179,20 @@ function App() {
 
               {/* Display Due Date */}
               {todo.dueDate && (
-                <span className="ml-4 text-sm text-gray-500">Due: {new Date(todo.dueDate).toLocaleDateString()}</span>
+                <span className="ml-4 text-sm text-gray-500">
+                  Due: {new Date(todo.dueDate).toLocaleDateString()}
+                </span>
               )}
 
               <button
                 onClick={() => toggleEdit(todo.id)}
-                className="ml-3 px-3 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600"
+                className="px-3 py-2 ml-3 text-white bg-blue-500 rounded-md hover:bg-blue-600"
               >
-                {todo.isEditing ? 'Save' : 'Edit'}
+                {todo.isEditing ? "Save" : "Edit"}
               </button>
               <button
                 onClick={() => deleteTodo(todo.id)}
-                className="ml-3 px-3 py-2 bg-red-500 text-white rounded-md hover:bg-red-600"
+                className="px-3 py-2 ml-3 text-white bg-red-500 rounded-md hover:bg-red-600"
               >
                 Delete
               </button>
