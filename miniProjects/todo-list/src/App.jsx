@@ -1,9 +1,12 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
+import notepad from "./assets/notepad.svg";
+import "./App.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function App() {
   // State for storing tasks
   const [tasks, setTasks] = useState(() => {
-    // Load tasks from localStorage when the app loads
     const savedTasks = localStorage.getItem("tasks");
     return savedTasks ? JSON.parse(savedTasks) : [];
   });
@@ -12,7 +15,7 @@ function App() {
   const [newTask, setNewTask] = useState("");
 
   // State for the due date input
-  const [dueDate, setDueDate] = useState("");
+  const [dueDate, setDueDate] = useState(null);
 
   // State to filter tasks (all, completed, uncompleted)
   const [filter, setFilter] = useState("all");
@@ -72,6 +75,34 @@ function App() {
     setTasks(previousTasksRef.current);
   };
 
+  // Function to edit a task
+  const editTask = (id) => {
+    const taskToEdit = tasks.find((task) => task.id === id);
+    setEditingTaskId(id);
+    setEditedText(taskToEdit.text);
+  };
+
+  // Function to save the edited task
+  const saveEditedTask = () => {
+    if (editedText.trim() === "") {
+      alert("Task cannot be empty!");
+      return;
+    }
+    setTasks(
+      tasks.map((task) =>
+        task.id === editingTaskId ? { ...task, text: editedText } : task
+      )
+    );
+    setEditingTaskId(null); // Reset editing state
+    setEditedText(""); // Clear the edited text input
+  };
+
+  // Function to cancel editing a task
+  const cancelEdit = () => {
+    setEditingTaskId(null); // Reset editing state
+    setEditedText(""); // Clear the edited text input
+  };
+
   // Function to toggle the completion status of a task
   const toggleCompletion = (id) => {
     setTasks(
@@ -89,105 +120,76 @@ function App() {
   });
 
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Todo List App</h1>
+    <div className="notepad-container">
+      <img src={notepad} alt="Notepad" className="notepad-background" />
 
-      {/* Input for adding a new task */}
-      <div>
-        <input
-          type="text"
-          value={newTask}
-          onChange={(e) => setNewTask(e.target.value)}
-          placeholder="Enter a new task"
-          ref={taskInputRef}
-        />
-        <input
-          type="date"
-          value={dueDate}
-          onChange={(e) => setDueDate(e.target.value)}
-          ref={dueDateInputRef}
-        />
-        <button onClick={addTask}>Add</button>
-      </div>
+      <div className="todo-content">
+        <h1 style={{ textAlign: "center" }}>Todo List</h1>
 
-      {/* Buttons to filter tasks */}
-      <div style={{ margin: "10px 0" }}>
-        <button onClick={() => setFilter("all")}>All</button>
-        <button onClick={() => setFilter("completed")}>Completed</button>
-        <button onClick={() => setFilter("uncompleted")}>Uncompleted</button>
-      </div>
+        {/* Input Section */}
+        <div className="input-section">
+          <input
+            type="text"
+            value={newTask}
+            onChange={(e) => setNewTask(e.target.value)}
+            placeholder="Enter a new task"
+            ref={taskInputRef}
+            disabled={editingTaskId !== null} // Disable input while editing
+          />
+          <DatePicker
+            selected={dueDate}
+            onChange={(date) => setDueDate(date)}
+            placeholderText="Select a due date"
+            dateFormat="MM/dd/yyyy"
+            id="due-date"
+            ref={dueDateInputRef}
+            disabled={editingTaskId !== null} // Disable input while editing
+          />
+          <button onClick={addTask}>Add</button>
+        </div>
 
-      {/* Display the list of tasks */}
-      <ul ref={listRef} style={{ maxHeight: "200px", overflowY: "auto" }}>
-        {filteredTasks.map((task) => (
-          <li key={task.id} style={{ display: "flex", gap: "10px" }}>
-            {editingTaskId === task.id ? (
-              // Edit mode: allow the user to update the task
-              <>
-                <input
-                  type="text"
-                  value={editedText}
-                  onChange={(e) => setEditedText(e.target.value)}
-                />
-                <button
-                  onClick={() => {
-                    // Save the edited text and reset edit mode
-                    setTasks(
-                      tasks.map((t) =>
-                        t.id === task.id ? { ...t, text: editedText } : t
-                      )
-                    );
-                    setEditingTaskId(null);
-                    setEditedText("");
-                  }}
-                >
-                  Save
-                </button>
-              </>
-            ) : (
-              // Normal display mode
-              <>
-                {/* Checkbox to toggle completion */}
-                <input
-                  type="checkbox"
-                  checked={task.completed}
-                  onChange={() => toggleCompletion(task.id)}
-                />
-                {/* Task text with strikethrough if completed */}
-                <span
-                  style={{
-                    textDecoration: task.completed ? "line-through" : "none",
-                  }}
-                >
-                  {task.text}
-                </span>
-                {/* Display the due date if available */}
-                {task.dueDate && (
-                  <span style={{ marginLeft: "10px" }}>
-                    Due: {new Date(task.dueDate).toLocaleDateString()}
-                  </span>
-                )}
-                {/* Edit and Delete buttons */}
-                <button
-                  onClick={() => {
-                    setEditingTaskId(task.id); // Enter edit mode
-                    setEditedText(task.text); // Prefill the current task text
-                  }}
-                >
-                  Edit
-                </button>
+        {/* Editing Task Section */}
+        {editingTaskId && (
+          <div className="edit-task-section">
+            <input
+              type="text"
+              value={editedText}
+              onChange={(e) => setEditedText(e.target.value)}
+              placeholder="Edit your task"
+            />
+            <button onClick={saveEditedTask}>Save</button>
+            <button onClick={cancelEdit}>Cancel</button>
+          </div>
+        )}
+
+        {/* Filter Section */}
+        <div className="filter-section">
+          <button onClick={() => setFilter("all")}>All</button>
+          <button onClick={() => setFilter("completed")}>Completed</button>
+          <button onClick={() => setFilter("uncompleted")}>Uncompleted</button>
+        </div>
+
+        {/* Task List */}
+        <ul ref={listRef}>
+          {filteredTasks.map((task) => (
+            <li key={task.id}>
+              <input
+                type="checkbox"
+                checked={task.completed}
+                onChange={() => toggleCompletion(task.id)}
+              />
+              <span className={task.completed ? "completed" : ""}>
+                {task.text}
+              </span>
+              <div>
                 <button onClick={() => deleteTask(task.id)}>Delete</button>
-                <button
-                  onClick={undoLastAction}
-                  disabled={previousTasksRef.current.length === 0}
-                >
-                  Undo
-                </button>
-              </>
-            )}
-          </li>
-        ))}
-      </ul>
+                <button onClick={undoLastAction}>Undo</button>
+                <button onClick={() => editTask(task.id)}>Edit</button>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 }

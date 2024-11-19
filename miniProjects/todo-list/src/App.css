@@ -1,23 +1,118 @@
 body {
-  font-family: Arial, sans-serif;
+  font-family: "Courier New", Courier, monospace;
+  background-color: #121212;
+  margin: 0;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
+/* Container that holds the notepad background and content */
+.notepad-container {
+  position: relative; /* Allows positioning of child elements */
+  width: 500px; /* Fixed width for the notepad */
+  margin: 0 auto;
+  padding: 20px;
+  height: 80vh; /* Let the height adjust based on content */
+}
+
+/* Notepad background image styling */
+.notepad-background {
+  position: absolute; /* Allows it to be layered under content */
+  top: 0; /* Align to the top of the container */
+  left: 0; /* Align to the left of the container */
+  width: 100%; /* Cover the width of the container */
+  height: auto; /* Maintain the image's aspect ratio */
+  z-index: -1; /* Push it behind the content */
+}
+
+/* Content on top of the notepad */
+.todo-content {
+  position: relative; /* Ensures it's above the background */
+  z-index: 1; /* Stacks this content above the background */
+}
+
+.input-container {
+  display: grid;
+  grid-template-columns: 2ft 1ft auto;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.input-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  margin-right: 10px;
+  margin-left: 30px;
+}
+
+/* Task list container */
 ul {
   list-style: none;
   padding: 0;
+  margin: 0;
+  max-height: 200px;
+  overflow-y: auto;
+  height: auto; /* Let the height adjust based on content */
 }
 
+/* Individual list items */
 li {
-  margin: 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px; /* Space between task elements */
+  background: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  margin-left: 30px;
+  margin-right: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
-input[type="text"] {
-  padding: 5px;
-  font-size: 16px;
+li span {
+  flex: 1; /* Allow task text to grow if needed */
+}
+
+li span.completed {
+  text-decoration: line-through;
+}
+
+/* Input fields and buttons */
+input[type="text"],
+input[type="date"] {
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
 }
 
 button {
+  padding: 10px;
+  font-size: 1rem;
+  border: none;
+  background-color: rgba(226, 226, 226, 0.1);
+  color: black;
+  cursor: pointer;
+  font-family: "Courier New", Courier, monospace;
+  font-weight: bold;
+}
+
+.filter-section {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filter-section button {
   padding: 5px 10px;
-  font-size: 14px;
+  border-radius: 5px;
+  border: none;
+  background-color: rgba(226, 226, 226, 0.1);
+  color: black;
   cursor: pointer;
 }
