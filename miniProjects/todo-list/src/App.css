@@ -31,6 +31,25 @@ body {
   z-index: -1; /* Push it behind the content */
 }
 
+.post-it {
+  position: absolute;
+  top: 150px;
+  left: 100px;
+  height: 50%;
+  overflow: hidden;
+  z-index: 10;
+}
+
+@media (max-width: 768px) {
+  .notepad-container {
+    width: 100%;
+  }
+
+  .post-it {
+    display: none;
+  }
+}
+
 /* Content on top of the notepad */
 .todo-content {
   position: relative; /* Ensures it's above the background */
@@ -99,7 +118,6 @@ input[type="date"] {
 .react-datepicker__input-container,
 .react-datepicker__input-container input {
   display: block;
-  width: 27.5rem;
 }
 
 button {

@@ -4,7 +4,7 @@ import "./App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import Clock from "./Components/Clock";
-
+import PostItWithText from "./Components/PostItWithText";
 function App() {
   // State for storing tasks
   const [tasks, setTasks] = useState(() => {
@@ -121,79 +121,86 @@ function App() {
   });
 
   return (
-    <div className="notepad-container">
-      <img src={notepad} alt="Notepad" className="notepad-background" />
-      {/* Clock */}
-      <Clock />
+    <>
+      {/* Notepad background image */}
+      <div className="post-it">
+        <PostItWithText />
+      </div>
+      <div className="notepad-container">
+        <img src={notepad} alt="Notepad" className="notepad-background" />
+        {/* Clock */}
+        <Clock />
+        <div className="todo-content">
+          <h1 style={{ textAlign: "center" }}>Todo List</h1>
 
-      <div className="todo-content">
-        <h1 style={{ textAlign: "center" }}>Todo List</h1>
-
-        {/* Input Section */}
-        <div className="input-section">
-          <input
-            type="text"
-            value={newTask}
-            onChange={(e) => setNewTask(e.target.value)}
-            placeholder="Enter a new task"
-            ref={taskInputRef}
-            disabled={editingTaskId !== null} // Disable input while editing
-          />
-          <DatePicker
-            selected={dueDate}
-            onChange={(date) => setDueDate(date)}
-            placeholderText="Select a due date"
-            dateFormat="MM/dd/yyyy"
-            id="due-date"
-            ref={dueDateInputRef}
-            disabled={editingTaskId !== null} // Disable input while editing
-          />
-          <button onClick={addTask}>Add</button>
-        </div>
-
-        {/* Editing Task Section */}
-        {editingTaskId && (
-          <div className="edit-task-section">
+          {/* Input Section */}
+          <div className="input-section">
             <input
               type="text"
-              value={editedText}
-              onChange={(e) => setEditedText(e.target.value)}
-              placeholder="Edit your task"
+              value={newTask}
+              onChange={(e) => setNewTask(e.target.value)}
+              placeholder="Enter a new task"
+              ref={taskInputRef}
+              disabled={editingTaskId !== null} // Disable input while editing
             />
-            <button onClick={saveEditedTask}>Save</button>
-            <button onClick={cancelEdit}>Cancel</button>
+            <DatePicker
+              selected={dueDate}
+              onChange={(date) => setDueDate(date)}
+              placeholderText="Select a due date"
+              dateFormat="MM/dd/yyyy"
+              id="due-date"
+              ref={dueDateInputRef}
+              disabled={editingTaskId !== null} // Disable input while editing
+            />
+            <button onClick={addTask}>Add</button>
           </div>
-        )}
 
-        {/* Filter Section */}
-        <div className="filter-section">
-          <button onClick={() => setFilter("all")}>All</button>
-          <button onClick={() => setFilter("completed")}>Completed</button>
-          <button onClick={() => setFilter("uncompleted")}>Uncompleted</button>
-        </div>
-
-        {/* Task List */}
-        <ul ref={listRef}>
-          {filteredTasks.map((task) => (
-            <li key={task.id}>
+          {/* Editing Task Section */}
+          {editingTaskId && (
+            <div className="edit-task-section">
               <input
-                type="checkbox"
-                checked={task.completed}
-                onChange={() => toggleCompletion(task.id)}
+                type="text"
+                value={editedText}
+                onChange={(e) => setEditedText(e.target.value)}
+                placeholder="Edit your task"
               />
-              <span className={task.completed ? "completed" : ""}>
-                {task.text}
-              </span>
-              <div>
-                <button onClick={() => deleteTask(task.id)}>Delete</button>
-                <button onClick={undoLastAction}>Undo</button>
-                <button onClick={() => editTask(task.id)}>Edit</button>
-              </div>
-            </li>
-          ))}
-        </ul>
+              <button onClick={saveEditedTask}>Save</button>
+              <button onClick={cancelEdit}>Cancel</button>
+            </div>
+          )}
+
+          {/* Filter Section */}
+          <div className="filter-section">
+            <button onClick={() => setFilter("all")}>All</button>
+            <button onClick={() => setFilter("completed")}>Completed</button>
+            <button onClick={() => setFilter("uncompleted")}>
+              Uncompleted
+            </button>
+          </div>
+
+          {/* Task List */}
+          <ul ref={listRef}>
+            {filteredTasks.map((task) => (
+              <li key={task.id}>
+                <input
+                  type="checkbox"
+                  checked={task.completed}
+                  onChange={() => toggleCompletion(task.id)}
+                />
+                <span className={task.completed ? "completed" : ""}>
+                  {task.text}
+                </span>
+                <div>
+                  <button onClick={() => deleteTask(task.id)}>Delete</button>
+                  <button onClick={undoLastAction}>Undo</button>
+                  <button onClick={() => editTask(task.id)}>Edit</button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

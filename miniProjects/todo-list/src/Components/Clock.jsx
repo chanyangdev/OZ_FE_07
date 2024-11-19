@@ -22,7 +22,8 @@ function Clock() {
         fontFamily: "Courier New",
       }}
     >
-      {currentTime.toLocaleTimeString()}
+      <div>{currentTime.toLocaleDateString()}</div>
+      <div>{currentTime.toLocaleTimeString()}</div>
     </div>
   );
 }
