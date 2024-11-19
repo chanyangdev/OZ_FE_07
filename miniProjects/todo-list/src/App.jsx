@@ -3,6 +3,7 @@ import notepad from "./assets/notepad.svg";
 import "./App.css";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Clock from "./Components/Clock";
 
 function App() {
   // State for storing tasks
@@ -122,6 +123,8 @@ function App() {
   return (
     <div className="notepad-container">
       <img src={notepad} alt="Notepad" className="notepad-background" />
+      {/* Clock */}
+      <Clock />
 
       <div className="todo-content">
         <h1 style={{ textAlign: "center" }}>Todo List</h1>

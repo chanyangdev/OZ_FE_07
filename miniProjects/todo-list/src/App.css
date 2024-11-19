@@ -1,3 +1,7 @@
+*:focus {
+  outline: none;
+}
+
 body {
   font-family: "Courier New", Courier, monospace;
   background-color: #121212;
@@ -88,6 +92,14 @@ input[type="date"] {
   padding: 10px;
   font-size: 1rem;
   border: none;
+  font-family: "Courier New", Courier, monospace;
+}
+
+.react-datepicker-wrapper,
+.react-datepicker__input-container,
+.react-datepicker__input-container input {
+  display: block;
+  width: 27.5rem;
 }
 
 button {
