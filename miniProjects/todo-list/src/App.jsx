@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 function App() {
   // State for storing tasks
@@ -21,6 +21,16 @@ function App() {
   const [editingTaskId, setEditingTaskId] = useState(null);
   const [editedText, setEditedText] = useState("");
 
+  // Reference for the input field
+  const taskInputRef = useRef(null);
+  const dueDateInputRef = useRef(null);
+
+  // Hold previous state of tasks
+  const previousTasksRef = useRef([]);
+
+  // list container
+  const listRef = useRef(null);
+
   // Save tasks to localStorage whenever they change
   useEffect(() => {
     localStorage.setItem("tasks", JSON.stringify(tasks));
@@ -28,18 +38,38 @@ function App() {
 
   // Function to add a new task
   const addTask = () => {
-    if (newTask.trim() === "") return; // Prevent adding empty tasks
+    if (newTask.trim() === "") {
+      alert("Task cannot be empty!");
+      taskInputRef.current.focus(); // focus on the task input
+      return;
+    }
+
+    if (!dueDate) {
+      alert("Please select a due date!");
+      dueDateInputRef.current.focus(); // focus on the due date input
+      return;
+    }
+
     setTasks([
       ...tasks,
       { id: Date.now(), text: newTask, completed: false, dueDate: dueDate },
     ]);
-    setNewTask(""); // Clear the input field
-    setDueDate(""); // Clear the due date field
+    setNewTask("");
+    setDueDate("");
+    setTimeout(() => {
+      listRef.current.scrollTop = listRef.current.scrollHeight; // scroll to bottom
+    }, 0);
   };
 
   // Function to delete a task by its ID
   const deleteTask = (id) => {
+    previousTasksRef.current = tasks;
     setTasks(tasks.filter((task) => task.id !== id));
+  };
+
+  // Function to "Undo" a task
+  const undoLastAction = () => {
+    setTasks(previousTasksRef.current);
   };
 
   // Function to toggle the completion status of a task
@@ -69,11 +99,13 @@ function App() {
           value={newTask}
           onChange={(e) => setNewTask(e.target.value)}
           placeholder="Enter a new task"
+          ref={taskInputRef}
         />
         <input
           type="date"
           value={dueDate}
           onChange={(e) => setDueDate(e.target.value)}
+          ref={dueDateInputRef}
         />
         <button onClick={addTask}>Add</button>
       </div>
@@ -86,7 +118,7 @@ function App() {
       </div>
 
       {/* Display the list of tasks */}
-      <ul>
+      <ul ref={listRef} style={{ maxHeight: "200px", overflowY: "auto" }}>
         {filteredTasks.map((task) => (
           <li key={task.id} style={{ display: "flex", gap: "10px" }}>
             {editingTaskId === task.id ? (
@@ -145,6 +177,12 @@ function App() {
                   Edit
                 </button>
                 <button onClick={() => deleteTask(task.id)}>Delete</button>
+                <button
+                  onClick={undoLastAction}
+                  disabled={previousTasksRef.current.length === 0}
+                >
+                  Undo
+                </button>
               </>
             )}
           </li>
