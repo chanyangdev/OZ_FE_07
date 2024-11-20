@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import OrderHistory from "./OrderHistory";
+import ShippingCart from "./ShippingCart";
+import ShoppingCart from "./ShippingCart";
 
 // Product Interface
 interface Product {
@@ -125,6 +127,7 @@ const Order: React.FC = () => {
       <br />
       <br />
       <OrderHistory orders={orders} setOrders={setOrders} />
+      <ShoppingCart carts={shippingCarts} handleOrder={handleOrder} />
     </div>
   );
 };
