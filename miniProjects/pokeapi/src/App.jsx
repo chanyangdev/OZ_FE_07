@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.scss";
 import { useEffect } from "react";
 import { fetchMultiplePokemonById } from "./RTK/thunk";
 import { useDispatch, useSelector } from "react-redux";
