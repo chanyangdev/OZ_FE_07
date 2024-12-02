@@ -39,5 +39,3 @@ export const PokemonId = styled.div`
   color: #666;
   font-size: 0.9rem;
 `;
-
-// ... rest of Card styles 

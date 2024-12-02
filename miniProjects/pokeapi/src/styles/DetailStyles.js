@@ -61,11 +61,9 @@ export const Stats = styled.div`
 
 export const Stat = styled.div`
   text-align: center;
-  
+
   span {
     color: #666;
     font-size: 0.9rem;
   }
 `;
-
-// ... rest of Detail page styles
