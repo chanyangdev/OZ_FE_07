@@ -29,7 +29,7 @@ function App() {
         <Link to={"/search"}>검색</Link>
         <Link to={"/favorite"}>찜목록</Link>
       </nav>
-      <main className="flex justify-center">
+      <main className="flex flex-wrap justify-center gap-[20px] pt-[20px]">
         <Routes>
           <Route path={"/"} element={<Main />} />
           <Route path={"/detail/:pokemon"} element={<Detail />} />
