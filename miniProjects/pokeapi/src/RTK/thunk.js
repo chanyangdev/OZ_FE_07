@@ -2,27 +2,36 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const fetchMultiplePokemonById = createAsyncThunk(
   "pokemon/fetchMultiplePokemonById",
-  async (maxPokemonId) => {
-    const numberArray = Array.from({ length: maxPokemonId }, (_, i) => i + 1);
-    console.log(numberArray);
-    const fetchAPI = async (pokemonId) => {
-      const response = await fetch(
-        `https://pokeapi.co/api/v2/pokemon-species/${pokemonId}/`
-      );
-      const data = await response.json();
+  async (limit) => {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
+    const data = await response.json();
+    
+    const pokemonDetails = await Promise.all(
+      data.results.map(async (pokemon) => {
+        const res = await fetch(pokemon.url);
+        const detail = await res.json();
+        
+        // Fetch species data for description
+        const speciesRes = await fetch(detail.species.url);
+        const speciesData = await speciesRes.json();
+        
+        // Get English description
+        const description = speciesData.flavor_text_entries
+          .find(entry => entry.language.name === "en")?.flavor_text
+          .replace(/\f/g, ' '); // Clean up formatting
 
-      const pokemonData = {
-        id: 1,
-        name: data.names.find((el) => el.language.name === "ko").name,
-        description: data.flavor_text_entries.find(
-          (el) => el.language.name === "ko"
-        ).flavor_text,
-        front: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`,
-        back: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/back/${pokemonId}.png`,
-      };
-      return pokemonData;
-    };
-
-    return await Promise.all(numberArray.map((el) => fetchAPI(el)));
+        return {
+          id: detail.id,
+          name: detail.name,
+          front: detail.sprites.front_default,
+          description,
+          types: detail.types.map(type => type.type.name),
+          height: detail.height,
+          weight: detail.weight
+        };
+      })
+    );
+    
+    return pokemonDetails;
   }
 );

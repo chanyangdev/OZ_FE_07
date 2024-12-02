@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchMultiplePokemonById } from "./thunk";
 
 const initialState = {
-  pokemon: [],
+  data: [],
   loading: false,
   error: null,
 };
@@ -10,9 +10,7 @@ const initialState = {
 const pokemonSlice = createSlice({
   name: "pokemon",
   initialState,
-  reducers: {
-    // Your reducers here
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchMultiplePokemonById.pending, (state) => {
@@ -20,7 +18,7 @@ const pokemonSlice = createSlice({
       })
       .addCase(fetchMultiplePokemonById.fulfilled, (state, action) => {
         state.loading = false;
-        state.pokemon = action.payload;
+        state.data = action.payload;
       })
       .addCase(fetchMultiplePokemonById.rejected, (state, action) => {
         state.loading = false;

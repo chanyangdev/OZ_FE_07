@@ -25,14 +25,14 @@ function App() {
       <h1 className="text-4xl font-bold text-center">포캣몬 도감</h1>
       <nav className="flex justify-center gap-4">
         <Link to={"/"}>메인</Link>
-        <Link to={"/detail/:pokemon"}>상세정보</Link>
+        <Link to={"/detail/:pokemonId"}>상세정보</Link>
         <Link to={"/search"}>검색</Link>
         <Link to={"/favorite"}>찜목록</Link>
       </nav>
       <main className="flex flex-wrap justify-center gap-[20px] pt-[20px]">
         <Routes>
           <Route path={"/"} element={<Main />} />
-          <Route path={"/detail/:pokemon"} element={<Detail />} />
+          <Route path={"/detail/:pokemonId"} element={<Detail />} />
           <Route path={"/search"} element={<Search />} />
           <Route path={"/favorite"} element={<Favorite />} />
         </Routes>
