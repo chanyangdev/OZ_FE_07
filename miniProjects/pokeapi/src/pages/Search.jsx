@@ -1,10 +1,10 @@
 // Import necessary dependencies
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import styled from 'styled-components';
-import { getRegExp } from 'korean-regexp';
+import styled from "styled-components";
+import { getRegExp } from "korean-regexp";
 import { Card, PokemonImage, PokemonInfo } from "../styles/CardStyles";
 import { typeColors } from "../styles/constants";
 
@@ -78,7 +78,9 @@ const SearchInput = styled.input`
 function Search() {
   // Manage search params and input state
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchInput, setSearchInput] = useState(searchParams.get("query") || "");
+  const [searchInput, setSearchInput] = useState(
+    searchParams.get("query") || ""
+  );
 
   // Get Pokemon data and favorites from Redux store
   const pokemons = useSelector((state) => state.pokemon?.pokemons || []);
@@ -94,7 +96,7 @@ function Search() {
   }, [searchInput, setSearchParams]);
 
   // Filter Pokemon based on search query using korean-regexp
-  const filteredPokemons = pokemons.filter(pokemon => {
+  const filteredPokemons = pokemons.filter((pokemon) => {
     // If no query, return all Pokemon
     if (!searchInput) return true;
 
@@ -103,24 +105,22 @@ function Search() {
 
     // Check both Korean and English names for matches
     return (
-      (pokemon.name_ko && koreanRegex.test(pokemon.name_ko.toLowerCase())) || 
+      (pokemon.name_ko && koreanRegex.test(pokemon.name_ko.toLowerCase())) ||
       koreanRegex.test(pokemon.name.toLowerCase())
     );
   });
 
   return (
     <SearchContainer>
-      <SearchInput 
-        type="text" 
-        placeholder="포켓몬 이름을 검색하세요 (한글/영어)"
+      <SearchInput
+        type="text"
+        placeholder="포켓몬 이름을 검색하세요"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
       />
 
       {filteredPokemons.length === 0 ? (
-        <NoResultsMessage>
-          검색 결과가 없습니다.
-        </NoResultsMessage>
+        <NoResultsMessage>검색 결과가 없습니다.</NoResultsMessage>
       ) : (
         <PokemonGrid>
           {filteredPokemons.map((pokemon) => (
@@ -129,7 +129,9 @@ function Search() {
                 <PokemonImage>
                   {/* Display Pokemon official artwork from the API */}
                   <img
-                    src={pokemon.sprites.other["official-artwork"].front_default}
+                    src={
+                      pokemon.sprites.other["official-artwork"].front_default
+                    }
                     alt={pokemon.name}
                   />
                   {/* Show heart icon if Pokemon is in favorites */}
@@ -151,7 +153,8 @@ function Search() {
                         key={type.type.name}
                         className="type-badge"
                         style={{
-                          backgroundColor: typeColors[type.type.name_ko] || '#777',
+                          backgroundColor:
+                            typeColors[type.type.name_ko] || "#777",
                         }}
                       >
                         {type.type.name_ko || type.type.name}

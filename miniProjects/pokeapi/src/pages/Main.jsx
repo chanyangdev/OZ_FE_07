@@ -165,7 +165,7 @@ function Main() {
     <MainContainer>
       <SearchInput 
         type="text" 
-        placeholder="포켓몬 이름을 검색하세요 (한글/영어)"
+        placeholder="포켓몬 이름을 검색하세요"
         value={searchInput}
         onChange={(e) => setSearchInput(e.target.value)}
       />
