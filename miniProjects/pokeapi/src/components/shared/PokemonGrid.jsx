@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { Card, PokemonImage, PokemonInfo } from "../../styles/CardStyles";
 import { typeColors } from "../../styles/constants";
+import FavoriteButton from "../FavoriteButton";
 
 const GridContainer = styled.div`
   display: grid;
@@ -52,14 +53,12 @@ const PokemonGrid = ({ pokemons, favorites = [] }) => {
       {pokemons.map((pokemon) => (
         <Link key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
           <Card>
+            <FavoriteButton pokemonId={pokemon.id} />
             <PokemonImage>
               <img
                 src={pokemon.sprites.other["official-artwork"].front_default}
                 alt={pokemon.name}
               />
-              {favorites.includes(pokemon.id) && (
-                <span className="absolute top-2 right-2">❤️</span>
-              )}
             </PokemonImage>
             <PokemonInfo>
               <div className="pokemon-id">
@@ -67,17 +66,28 @@ const PokemonGrid = ({ pokemons, favorites = [] }) => {
               </div>
               <h3>{pokemon.name_ko || pokemon.name}</h3>
               <div className="types">
-                {pokemon.types.map((type) => (
-                  <span
-                    key={type.type.name}
-                    className="type-badge"
-                    style={{
-                      backgroundColor: typeColors[type.type.name_ko] || "#777",
-                    }}
-                  >
-                    {type.type.name_ko || type.type.name}
-                  </span>
-                ))}
+                {pokemon.types.map((type) => {
+                  console.log('Type object:', type);
+                  console.log('Type name Korean:', type.type.name_ko);
+                  console.log('Available colors:', typeColors);
+                  
+                  const typeNameKo = type.type.name_ko;
+                  const typeColor = typeColors[typeNameKo];
+                  
+                  console.log('Selected color:', typeColor);
+                  
+                  return (
+                    <span
+                      key={type.type.name}
+                      className="type-badge"
+                      style={{
+                        backgroundColor: typeColor || "#777"
+                      }}
+                    >
+                      {typeNameKo || type.type.name}
+                    </span>
+                  );
+                })}
               </div>
             </PokemonInfo>
           </Card>
