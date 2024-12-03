@@ -86,7 +86,7 @@ const PokemonCard = memo(({ pokemon }) => {
         <PokemonImage>
           {isImageLoading && <LoadingPlaceholder>Loading...</LoadingPlaceholder>}
           <img
-            src={pokemon.sprites.front_default}
+            src={pokemon.sprites.other?.["official-artwork"]?.front_default || pokemon.sprites.front_default}
             alt={pokemon.name}
             style={{ display: isImageLoading ? "none" : "block" }}
             onLoad={handleImageLoad}
@@ -122,6 +122,11 @@ PokemonCard.propTypes = {
     name_ko: PropTypes.string,
     sprites: PropTypes.shape({
       front_default: PropTypes.string.isRequired,
+      other: PropTypes.shape({
+        "official-artwork": PropTypes.shape({
+          front_default: PropTypes.string,
+        }),
+      }),
     }).isRequired,
     types: PropTypes.arrayOf(
       PropTypes.shape({

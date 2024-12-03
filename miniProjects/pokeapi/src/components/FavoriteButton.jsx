@@ -22,10 +22,6 @@ const HeartButton = styled.button`
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  z-index: 5;
   
   &:hover {
     transform: scale(1.2);
@@ -62,7 +58,7 @@ function FavoriteButton({ pokemonId }) {
   };
 
   return (
-    <HeartButton onClick={handleClick} $isFavorite={isFavorite}>
+    <HeartButton onClick={handleClick} $isFavorite={isFavorite} style={{ position: 'absolute', top: '10px', right: '10px', zIndex: 5 }}>
       <span className="heart" aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}>
         {isFavorite ? '❤️' : '🤍'}
       </span>

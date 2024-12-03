@@ -56,12 +56,14 @@ function Main() {
 
   // Update URL search params when input changes
   useEffect(() => {
+    const currentParams = Object.fromEntries(searchParams.entries());
     if (searchInput) {
-      setSearchParams({ query: searchInput });
+      setSearchParams({ ...currentParams, query: searchInput });
     } else {
-      setSearchParams({});
+      const { query, ...restParams } = currentParams;
+      setSearchParams(restParams);
     }
-  }, [searchInput, setSearchParams]);
+  }, [searchInput, setSearchParams, searchParams]);
 
   // Filter pokemons by search
   const filteredPokemons = filterPokemonsBySearch(filteredPokemonsByType, searchInput);

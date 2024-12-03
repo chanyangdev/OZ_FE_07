@@ -19,7 +19,9 @@ export const selectFilteredPokemons = createSelector(
   (pokemons, selectedTypes) => {
     if (selectedTypes.length === 0) return pokemons;
     return pokemons.filter(pokemon => 
-      pokemon.types.some(type => selectedTypes.includes(type.type.name))
+      pokemon.types.some(type => 
+        selectedTypes.includes(type.type.name_ko) || selectedTypes.includes(type.type.name)
+      )
     );
   }
 );

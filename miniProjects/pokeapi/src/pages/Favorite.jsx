@@ -8,10 +8,9 @@
  */
 
 import { useSelector } from "react-redux";
-import { Card, PokemonImage, PokemonInfo } from "../styles/CardStyles";
-import { FavoriteContainer, EmptyMessage, PokemonLink } from "../styles/FavoriteStyles";
+import { EmptyMessage, FavoriteContainer } from "../styles/FavoriteStyles";
+import PokemonCard from "../components/shared/Card";
 import FavoriteButton from "../components/FavoriteButton";
-import { typeColors } from "../styles/constants";
 
 function Favorite() {
   const pokemons = useSelector((state) => state.pokemon?.pokemons || []);
@@ -36,34 +35,9 @@ function Favorite() {
   return (
     <FavoriteContainer>
       {favoritePokemons.map((pokemon) => (
-        <PokemonLink key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
-          <Card>
-            <FavoriteButton pokemonId={pokemon.id} />
-            <PokemonImage>
-              <img
-                src={pokemon.sprites.other["official-artwork"].front_default}
-                alt={pokemon.name}
-              />
-            </PokemonImage>
-            <PokemonInfo>
-              <div className="pokemon-id">#{String(pokemon.id).padStart(3, "0")}</div>
-              <h3>{pokemon.name_ko || pokemon.name}</h3>
-              <div className="types">
-                {pokemon.types.map((type) => (
-                  <span
-                    key={type.type.name}
-                    className="type-badge"
-                    style={{
-                      backgroundColor: typeColors[type.type.name],
-                    }}
-                  >
-                    {type.type.name_ko || type.type.name}
-                  </span>
-                ))}
-              </div>
-            </PokemonInfo>
-          </Card>
-        </PokemonLink>
+        <PokemonCard key={pokemon.id} pokemon={pokemon}>
+          <FavoriteButton pokemonId={pokemon.id} />
+        </PokemonCard>
       ))}
     </FavoriteContainer>
   );
