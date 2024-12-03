@@ -8,8 +8,8 @@ function TypeFilter({ selectedTypes, onTypeSelect }) {
       {Object.keys(typeColors).map((type) => (
         <TypeButton
           key={type}
-          isSelected={selectedTypes.includes(type)}
-          typeColor={typeColors[type]}
+          $isSelected={selectedTypes.includes(type)}
+          $typeColor={typeColors[type]}
           onClick={() => onTypeSelect(type)}
         >
           {type}

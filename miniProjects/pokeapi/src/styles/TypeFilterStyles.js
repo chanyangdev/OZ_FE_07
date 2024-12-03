@@ -15,7 +15,7 @@ export const TypeFilterContainer = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
-  z-index: 100; // Increased z-index to be above cards
+  z-index: 100;
 
   @media (max-width: 768px) {
     padding: 15px 10px;
@@ -28,16 +28,19 @@ export const TypeFilterContainer = styled.div`
   }
 `;
 
-export const TypeButton = styled.button`
+export const TypeButton = styled.button.attrs(props => ({
+  'data-selected': props.$isSelected,
+  'data-color': props.$typeColor,
+}))`
   padding: clamp(6px, 1.5vw, 8px) clamp(12px, 2vw, 16px);
   border-radius: 20px;
   border: none;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.2s;
-  background-color: ${({ isSelected, typeColor }) => isSelected ? typeColor : '#e0e0e0'};
-  color: ${({ isSelected }) => isSelected ? 'white' : '#666'};
-  opacity: ${({ isSelected }) => isSelected ? 1 : 0.8};
+  background-color: ${({ $isSelected, $typeColor }) => $isSelected ? $typeColor : '#e0e0e0'};
+  color: ${({ $isSelected }) => $isSelected ? 'white' : '#666'};
+  opacity: ${({ $isSelected }) => $isSelected ? 1 : 0.8};
   min-width: clamp(70px, 15vw, 80px);
   font-size: clamp(0.8rem, 1.5vw, 1rem);
 
