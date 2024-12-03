@@ -35,9 +35,7 @@ function Favorite() {
   return (
     <FavoriteContainer>
       {favoritePokemons.map((pokemon) => (
-        <PokemonCard key={pokemon.id} pokemon={pokemon}>
-          <FavoriteButton pokemonId={pokemon.id} />
-        </PokemonCard>
+        <PokemonCard key={pokemon.id} pokemon={pokemon} />
       ))}
     </FavoriteContainer>
   );

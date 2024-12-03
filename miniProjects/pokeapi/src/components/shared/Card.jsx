@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 import { Card, PokemonImage, PokemonInfo } from "../../styles/CardStyles";
 import FavoriteButton from "../FavoriteButton";
-import { typeColors } from "../../styles/constants";
+import { typeColors, englishTypeColors } from "../../styles/constants";
 import styled from "styled-components";
 
 const LoadingPlaceholder = styled.div`
@@ -61,7 +61,7 @@ const StyledFavoriteButton = styled(FavoriteButton)`
   }
 `;
 
-const PokemonCard = memo(({ pokemon }) => {
+const PokemonCard = memo(({ pokemon, children }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
   if (!pokemon) return null;
@@ -76,13 +76,20 @@ const PokemonCard = memo(({ pokemon }) => {
     e.target.src = "/placeholder.png";
   };
 
+  const getTypeColor = (typeName) => {
+    // Try Korean color first, then English color
+    return typeColors[typeName] || englishTypeColors[typeName] || '#666666';
+  };
+
   return (
     <CardContainer to={`/pokemon/${pokemon.id}`}>
       <Card>
-        <StyledFavoriteButton 
-          pokemonId={pokemon.id} 
-          className="favorite-button"
-        />
+        {children || (
+          <StyledFavoriteButton 
+            pokemonId={pokemon.id} 
+            className="favorite-button"
+          />
+        )}
         <PokemonImage>
           {isImageLoading && <LoadingPlaceholder>Loading...</LoadingPlaceholder>}
           <img
@@ -101,7 +108,7 @@ const PokemonCard = memo(({ pokemon }) => {
               <span
                 key={type.type.name}
                 className="type-badge"
-                style={{ backgroundColor: typeColors[type.type.name] }}
+                style={{ backgroundColor: getTypeColor(type.type.name) }}
               >
                 {type.type.name_ko || type.type.name}
               </span>
@@ -137,6 +144,7 @@ PokemonCard.propTypes = {
       })
     ).isRequired,
   }).isRequired,
+  children: PropTypes.node,
 };
 
 export default PokemonCard;
