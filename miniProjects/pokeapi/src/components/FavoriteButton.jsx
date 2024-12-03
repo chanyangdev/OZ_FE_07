@@ -1,3 +1,12 @@
+/**
+ * Favorite Button Component
+ * Toggles Pokemon favorite status
+ * Features:
+ * - Heart icon toggle
+ * - Redux state management
+ * - Animated interaction
+ */
+
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorite } from "../RTK/slice";

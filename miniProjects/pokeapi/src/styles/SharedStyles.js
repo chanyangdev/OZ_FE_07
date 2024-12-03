@@ -1,3 +1,13 @@
+/**
+ * Shared Styles Module
+ * Provides reusable styled components across the application
+ * Features:
+ * - Common layout components
+ * - Consistent spacing and alignment
+ * - Responsive design utilities
+ * - Shared interaction styles
+ */
+
 import styled from 'styled-components';
 
 // Responsive Container

@@ -1,3 +1,13 @@
+/**
+ * Global Styles Module
+ * Provides application-wide styling and reset
+ * Features:
+ * - CSS reset and normalization
+ * - Global typography settings
+ * - Consistent color palette
+ * - Responsive base styles
+ */
+
 import { createGlobalStyle } from 'styled-components';
 
 const GlobalStyles = createGlobalStyle`

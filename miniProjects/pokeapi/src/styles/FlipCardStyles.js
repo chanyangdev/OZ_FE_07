@@ -1,3 +1,13 @@
+/**
+ * Flip Card Styles Module
+ * Provides styled components for interactive Pokemon cards
+ * Features:
+ * - 3D flip animation styling
+ * - Front and back card design
+ * - Responsive card dimensions
+ * - Transition and transform effects
+ */
+
 import styled from "styled-components";
 
 export const FlipImageContainer = styled.div`

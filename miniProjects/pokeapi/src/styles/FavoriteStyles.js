@@ -1,3 +1,13 @@
+/**
+ * Favorite Page Styles Module
+ * Provides styled components for favorite Pokemon section
+ * Features:
+ * - Grid layout for favorites
+ * - Responsive design
+ * - Empty state styling
+ * - Hover and interaction effects
+ */
+
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 

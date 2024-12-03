@@ -1,3 +1,13 @@
+/**
+ * Main Pokemon Listing Page
+ * Displays a comprehensive list of Pokemon
+ * Features:
+ * - Infinite scroll
+ * - Pokemon grid view
+ * - Basic filtering and sorting
+ * - Performance optimized rendering
+ */
+
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, PokemonImage, PokemonInfo } from "../styles/CardStyles";

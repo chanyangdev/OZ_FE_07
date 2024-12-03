@@ -1,3 +1,13 @@
+/**
+ * Card Styles Module
+ * Provides styled components for Pokemon card rendering
+ * Features:
+ * - Responsive card layout
+ * - Consistent design system
+ * - Flexbox and grid-based styling
+ * - Hover and interaction effects
+ */
+
 import styled from 'styled-components';
 
 export const Card = styled.div`

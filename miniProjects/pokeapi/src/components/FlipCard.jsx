@@ -1,3 +1,13 @@
+/**
+ * Flip Card Component
+ * Interactive card that reveals additional Pokemon information
+ * Features:
+ * - 3D flip animation
+ * - Front and back card views
+ * - Responsive design
+ * - Detailed Pokemon stats display
+ */
+
 import React, { useState, memo } from "react";
 import {
   FlipImageContainer,

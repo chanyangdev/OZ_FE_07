@@ -1,3 +1,12 @@
+/**
+ * Favorite Pokemon Page
+ * Displays a collection of user's favorite Pokemon
+ * Features:
+ * - Grid view of favorited Pokemon
+ * - Ability to remove favorites
+ * - Responsive layout
+ */
+
 import { useSelector } from "react-redux";
 import { Card, PokemonImage, PokemonInfo } from "../styles/CardStyles";
 import { FavoriteContainer, EmptyMessage, PokemonLink } from "../styles/FavoriteStyles";
