@@ -1,6 +1,9 @@
 import React, { useState, memo } from "react";
 import PropTypes from "prop-types";
-import { CardContainer, PokemonName, PokemonId } from "../styles/CardStyles";
+import { Link } from "react-router-dom";
+import { Card, PokemonImage, PokemonInfo } from "../styles/CardStyles";
+import FavoriteButton from "../components/FavoriteButton";
+import { typeColors } from "../styles/constants";
 import styled from "styled-components";
 
 const LoadingPlaceholder = styled.div`
@@ -30,10 +33,37 @@ const LoadingPlaceholder = styled.div`
   }
 `;
 
-const Card = memo(({ pokemon }) => {
+const CardContainer = styled(Link)`
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  
+  &:hover {
+    .favorite-button {
+      opacity: 1;
+    }
+  }
+`;
+
+const StyledFavoriteButton = styled(FavoriteButton)`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 2;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  
+  &:hover {
+    transform: scale(1.1);
+  }
+`;
+
+const PokemonCard = memo(({ pokemon }) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
 
-  // Skip rendering if pokemon data is not available
   if (!pokemon) return null;
 
   const handleImageLoad = () => {
@@ -43,33 +73,65 @@ const Card = memo(({ pokemon }) => {
   const handleImageError = (e) => {
     console.error("Failed to load pokemon image:", pokemon.name);
     setIsImageLoading(false);
-    e.target.src = "/placeholder.png"; // Add a placeholder image
+    e.target.src = "/placeholder.png";
   };
 
   return (
-    <CardContainer to={`/detail/${pokemon.id}`}>
-      <LoadingPlaceholder style={{ display: isImageLoading ? "block" : "none" }}>Loading...</LoadingPlaceholder>
-      <img
-        src={pokemon.front}
-        alt={pokemon.name}
-        style={{ display: isImageLoading ? "none" : "block" }}
-        onLoad={handleImageLoad}
-        onError={handleImageError}
-      />
-      <PokemonId>#{pokemon.id.toString().padStart(3, "0")}</PokemonId>
-      <PokemonName>{pokemon.name}</PokemonName>
+    <CardContainer to={`/pokemon/${pokemon.id}`}>
+      <Card>
+        <StyledFavoriteButton 
+          pokemonId={pokemon.id} 
+          className="favorite-button"
+        />
+        <PokemonImage>
+          {isImageLoading && <LoadingPlaceholder>Loading...</LoadingPlaceholder>}
+          <img
+            src={pokemon.sprites.front_default}
+            alt={pokemon.name}
+            style={{ display: isImageLoading ? "none" : "block" }}
+            onLoad={handleImageLoad}
+            onError={handleImageError}
+          />
+        </PokemonImage>
+        <PokemonInfo>
+          <div className="pokemon-id">#{String(pokemon.id).padStart(3, "0")}</div>
+          <h3>{pokemon.name_ko || pokemon.name}</h3>
+          <div className="types">
+            {pokemon.types.map((type) => (
+              <span
+                key={type.type.name}
+                className="type-badge"
+                style={{ backgroundColor: typeColors[type.type.name] }}
+              >
+                {type.type.name_ko || type.type.name}
+              </span>
+            ))}
+          </div>
+        </PokemonInfo>
+      </Card>
     </CardContainer>
   );
 });
 
-Card.displayName = "Card";
+PokemonCard.displayName = "PokemonCard";
 
-Card.propTypes = {
+PokemonCard.propTypes = {
   pokemon: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    front: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
+    name_ko: PropTypes.string,
+    sprites: PropTypes.shape({
+      front_default: PropTypes.string.isRequired,
+    }).isRequired,
+    types: PropTypes.arrayOf(
+      PropTypes.shape({
+        type: PropTypes.shape({
+          name: PropTypes.string.isRequired,
+          name_ko: PropTypes.string,
+        }).isRequired,
+      })
+    ).isRequired,
   }).isRequired,
 };
 
-export default Card;
+export default PokemonCard;

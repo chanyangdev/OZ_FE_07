@@ -15,7 +15,7 @@ export const TypeFilterContainer = styled.div`
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
-  z-index: 10;
+  z-index: 100; // Increased z-index to be above cards
 
   @media (max-width: 768px) {
     padding: 15px 10px;
