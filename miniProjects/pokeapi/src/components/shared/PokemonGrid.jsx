@@ -67,14 +67,11 @@ const PokemonGrid = ({ pokemons, favorites = [] }) => {
               <h3>{pokemon.name_ko || pokemon.name}</h3>
               <div className="types">
                 {pokemon.types.map((type) => {
-                  console.log('Type object:', type);
-                  console.log('Type name Korean:', type.type.name_ko);
-                  console.log('Available colors:', typeColors);
+                 
                   
                   const typeNameKo = type.type.name_ko;
                   const typeColor = typeColors[typeNameKo];
                   
-                  console.log('Selected color:', typeColor);
                   
                   return (
                     <span
