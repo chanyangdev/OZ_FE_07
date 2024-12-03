@@ -12,8 +12,8 @@ import styled from 'styled-components';
 
 export const Card = styled.div`
   background: white;
-  border-radius: 15px;
-  padding: 15px;
+  border-radius: 12px;
+  padding: 12px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
   cursor: pointer;
@@ -25,8 +25,8 @@ export const Card = styled.div`
   flex-direction: column;
 
   &:hover {
-    transform: scale(1.05);
-    filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    transform: scale(1.03);
+    filter: drop-shadow(0 0 6px rgba(0,0,0,0.2));
   }
 
   &::before {
@@ -44,12 +44,17 @@ export const Card = styled.div`
     z-index: 1;
   }
 
-  @media (max-width: 768px) {
-    padding: 12px;
+  @media (min-width: 1600px) {
+    max-width: 280px;
+    margin: 0 auto;
   }
 
-  @media (max-width: 480px) {
+  @media (max-width: 1200px) {
     padding: 10px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 8px;
   }
 `;
 
