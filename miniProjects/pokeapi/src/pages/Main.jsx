@@ -92,6 +92,19 @@ const NoResultsMessage = styled.div`
   max-width: 400px;
 `;
 
+const LoadingMessage = styled.div`
+  text-align: center;
+  padding: 48px;
+  font-size: 1.2rem;
+  color: #666;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  margin: 24px auto;
+  max-width: 400px;
+`;
+
 function Main() {
   const dispatch = useDispatch();
   const [selectedTypes, setSelectedTypes] = useState([]);
