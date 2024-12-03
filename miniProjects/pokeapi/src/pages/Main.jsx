@@ -22,13 +22,9 @@ import { filterPokemonsBySearch } from '../utils/searchUtils';
 
 const MainContainer = styled.div`
   width: 100%;
-  max-width: 1400px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  
-  @media (max-width: 768px) {
-    padding: 10px;
-  }
 `;
 
 const LoadingMessage = styled.div`
@@ -45,7 +41,7 @@ const LoadingMessage = styled.div`
 `;
 
 function Main() {
-  const dispatch = useDispatch();
+  const pokemons = useSelector((state) => state.pokemons);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [searchParams, setSearchParams] = useSearchParams();
   const [searchInput, setSearchInput] = useState(searchParams.get("query") || "");
@@ -81,15 +77,12 @@ function Main() {
       }
       return [...prev, koreanType];
     });
-  }, []);
+  };
 
-  if (pokemons.length === 0) {
-    return (
-      <MainContainer>
-        <LoadingMessage>Loading...</LoadingMessage>
-      </MainContainer>
-    );
-  }
+  const filteredPokemons = pokemons.filter(pokemon => {
+    if (selectedTypes.length === 0) return true;
+    return pokemon.types.some(type => selectedTypes.includes(type.type.name));
+  });
 
   return (
     <MainContainer>

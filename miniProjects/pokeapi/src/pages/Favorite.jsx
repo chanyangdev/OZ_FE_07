@@ -13,31 +13,30 @@ import PokemonCard from "../components/shared/Card";
 import FavoriteButton from "../components/FavoriteButton";
 
 function Favorite() {
-  const pokemons = useSelector((state) => state.pokemon?.pokemons || []);
-  const favorites = useSelector((state) => state.pokemon?.favorites || []);
+  // Get all Pokemon and favorites from Redux store
+  const pokemons = useSelector((state) => state.pokemons);
+  const favorites = useSelector((state) => state.favorites);
 
+  // Filter Pokemon that are in favorites
   const favoritePokemons = pokemons.filter(pokemon => 
     favorites.includes(pokemon.id)
   );
 
-  if (pokemons.length === 0) {
-    return <EmptyMessage>Loading...</EmptyMessage>;
-  }
-
+  // Show message if no favorites
   if (favoritePokemons.length === 0) {
     return (
-      <EmptyMessage>
+      <div className="w-full mt-10 text-center">
         찜한 포켓몬이 없습니다.
-      </EmptyMessage>
+      </div>
     );
   }
 
   return (
-    <FavoriteContainer>
+    <>
       {favoritePokemons.map((pokemon) => (
         <PokemonCard key={pokemon.id} pokemon={pokemon} />
       ))}
-    </FavoriteContainer>
+    </>
   );
 }
 

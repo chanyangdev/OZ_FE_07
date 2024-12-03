@@ -11,9 +11,9 @@
 import styled from "styled-components";
 
 export const DetailContainer = styled.div`
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -52,7 +52,8 @@ export const PokemonHeader = styled.div`
 
 export const TypesContainer = styled.div`
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 15px;
   margin: 20px 0;
 `;

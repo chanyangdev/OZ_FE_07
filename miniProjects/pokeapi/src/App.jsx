@@ -1,43 +1,13 @@
 import "./App.scss";
-import { useEffect, Suspense, lazy } from "react";
+import { useEffect } from "react";
 import { fetchMultiplePokemonById } from "./RTK/thunk";
 import { useDispatch, useSelector } from "react-redux";
 import { Routes, Route, Link, useNavigate } from "react-router-dom";
+import Main from "./pages/Main";
+import Detail from "./pages/Detail";
+import Search from "./pages/Search";
+import Favorite from "./pages/Favorite";
 import { useState } from "react";
-import GlobalStyles from "./styles/GlobalStyles";
-import styled from "styled-components";
-
-// Lazy load components
-const Main = lazy(() => import("./pages/Main"));
-const Detail = lazy(() => import("./pages/Detail"));
-const Search = lazy(() => import("./pages/Search"));
-const Favorite = lazy(() => import("./pages/Favorite"));
-
-// Loading component
-const LoadingSpinner = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-  font-size: 1.5rem;
-  color: #ff5350;
-  
-  &::after {
-    content: "";
-    width: 40px;
-    height: 40px;
-    border: 4px solid #ff5350;
-    border-top: 4px solid transparent;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-left: 10px;
-  }
-  
-  @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }
-`;
 
 function App() {
   // Initialize Redux dispatch and get loading state
@@ -71,7 +41,6 @@ function App() {
 
   return (
     <>
-      <GlobalStyles />
       {/* Main title */}
       <h1 className="text-4xl font-bold text-center">포켓몬 도감</h1>
       
@@ -81,17 +50,15 @@ function App() {
         <Link to={"/favorite"}>찜목록</Link>
       </nav>
 
-      <Suspense fallback={<LoadingSpinner>Loading...</LoadingSpinner>}>
-        {/* Main content area with routes */}
-        <main className="flex flex-wrap justify-center gap-[20px] pt-[20px]">
-          <Routes>
-            <Route path={"/"} element={<Main />} />
-            <Route path={"/pokemon/:id"} element={<Detail />} />
-            <Route path={"/search"} element={<Search searchTerm={searchTerm} />} />
-            <Route path={"/favorite"} element={<Favorite />} />
-          </Routes>
-        </main>
-      </Suspense>
+      {/* Main content area with routes */}
+      <main className="flex flex-wrap justify-center gap-[20px] pt-[20px]">
+        <Routes>
+          <Route path={"/"} element={<Main />} />
+          <Route path={"/pokemon/:id"} element={<Detail />} />
+          <Route path={"/search"} element={<Search />} />
+          <Route path={"/favorite"} element={<Favorite />} />
+        </Routes>
+      </main>
     </>
   );
 }

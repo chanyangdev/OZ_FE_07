@@ -47,13 +47,15 @@ const HeartButton = styled.button`
 
 function FavoriteButton({ pokemonId }) {
   const dispatch = useDispatch();
+  // Check if this Pokemon is in favorites
   const isFavorite = useSelector((state) => 
-    state.pokemon?.favorites?.includes(pokemonId) || false
+    state.favorites.includes(pokemonId)
   );
 
+  // Handle favorite toggle
   const handleClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); // Prevent navigation when clicking the button
+    e.stopPropagation(); // Prevent event bubbling
     dispatch(toggleFavorite(pokemonId));
   };
 
@@ -66,4 +68,4 @@ function FavoriteButton({ pokemonId }) {
   );
 }
 
-export default FavoriteButton;
+export default FavoriteButton; 

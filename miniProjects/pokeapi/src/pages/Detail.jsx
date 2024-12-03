@@ -48,11 +48,18 @@ const getStatColor = (statName) => {
 
 function Detail() {
   const { id } = useParams();
+  const dispatch = useDispatch();
   const pokemon = useSelector((state) =>
-    state.pokemon?.pokemons?.find((p) => p.id === parseInt(id))
+    state.pokemons.find((p) => p.id === parseInt(id))
   );
+  const favorites = useSelector((state) => state.favorites);
+  const isFavorite = favorites.includes(parseInt(id));
 
-  if (!pokemon) return <div>Loading...</div>;
+  if (!pokemon) return <div>포켓몬을 찾을 수 없습니다.</div>;
+
+  const handleFavoriteClick = () => {
+    dispatch(toggleFavorite(pokemon.id));
+  };
 
   return (
     <DetailContainer>
@@ -111,6 +118,18 @@ function Detail() {
       </DetailCard>
     </DetailContainer>
   );
+}
+
+function translateStatName(statName) {
+  const translations = {
+    "hp": "체력",
+    "attack": "공격",
+    "defense": "방어",
+    "special-attack": "특수공격",
+    "special-defense": "특수방어",
+    "speed": "스피드"
+  };
+  return translations[statName] || statName;
 }
 
 export default Detail;
