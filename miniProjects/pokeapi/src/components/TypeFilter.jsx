@@ -1,5 +1,6 @@
 import React from 'react';
-import { TypeFilterContainer, TypeButton, typeColors } from '../styles/TypeFilterStyles';
+import { TypeFilterContainer, TypeButton } from '../styles/TypeFilterStyles';
+import { typeColors } from '../styles/constants';
 
 function TypeFilter({ selectedTypes, onTypeSelect }) {
   return (
@@ -7,8 +8,8 @@ function TypeFilter({ selectedTypes, onTypeSelect }) {
       {Object.keys(typeColors).map((type) => (
         <TypeButton
           key={type}
-          isSelected={selectedTypes.includes(type)}
-          typeColor={typeColors[type]}
+          $isSelected={selectedTypes.includes(type)}
+          $typeColor={typeColors[type]}
           onClick={() => onTypeSelect(type)}
         >
           {type}
