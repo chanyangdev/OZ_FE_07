@@ -1,5 +1,6 @@
 import React from 'react';
-import { TypeFilterContainer, TypeButton, typeColors } from '../styles/TypeFilterStyles';
+import { TypeFilterContainer, TypeButton } from '../styles/TypeFilterStyles';
+import { typeColors } from '../styles/constants';
 
 function TypeFilter({ selectedTypes, onTypeSelect }) {
   return (

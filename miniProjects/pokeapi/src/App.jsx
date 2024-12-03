@@ -8,6 +8,7 @@ import Detail from "./pages/Detail";
 import Search from "./pages/Search";
 import Favorite from "./pages/Favorite";
 import { useState } from "react";
+import GlobalStyles from "./styles/GlobalStyles";
 
 function App() {
   // Initialize Redux dispatch and get loading state
@@ -41,6 +42,7 @@ function App() {
 
   return (
     <>
+      <GlobalStyles />
       {/* Main title */}
       <h1 className="text-4xl font-bold text-center">포켓몬 도감</h1>
       
