@@ -2,6 +2,7 @@ import { useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import styled from 'styled-components';
+import { getRegExp } from 'korean-regexp';
 import { Card, PokemonImage, PokemonInfo } from "../styles/CardStyles";
 import { typeColors } from "../styles/constants";
 
@@ -44,10 +45,19 @@ function Search() {
   const pokemons = useSelector((state) => state.pokemon?.pokemons || []);
   const favorites = useSelector((state) => state.pokemon?.favorites || []);
 
-  // Filter Pokemon based on search query
+  // Filter Pokemon based on search query using korean-regexp
   const filteredPokemons = pokemons.filter(pokemon => {
-    const searchRegex = new RegExp(query, "i"); // Case-insensitive search
-    return searchRegex.test(pokemon.name_ko || pokemon.name);
+    // If no query, return all Pokemon
+    if (!query) return true;
+
+    // Create Korean-friendly regex
+    const koreanRegex = getRegExp(query);
+
+    // Check both Korean and English names
+    return (
+      (pokemon.name_ko && koreanRegex.test(pokemon.name_ko)) || 
+      koreanRegex.test(pokemon.name)
+    );
   });
 
   // Show message if no Pokemon found
@@ -91,7 +101,7 @@ function Search() {
                       key={type.type.name}
                       className="type-badge"
                       style={{
-                        backgroundColor: typeColors[type.type.name_ko],
+                        backgroundColor: typeColors[type.type.name_ko] || '#777',
                       }}
                     >
                       {type.type.name_ko || type.type.name}
