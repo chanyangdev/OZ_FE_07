@@ -1,4 +1,5 @@
 // Import necessary dependencies
+import { useState, useEffect } from 'react';
 import { useSearchParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -43,6 +44,28 @@ const NoResultsMessage = styled.div`
   max-width: 400px;
 `;
 
+// Styled search input component
+const SearchInput = styled.input`
+  width: 100%;
+  padding: 12px 16px;
+  margin-bottom: 20px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+
+  &:focus {
+    outline: none;
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+  }
+
+  @media (max-width: 768px) {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+`;
+
 /**
  * Search Component
  * Handles the search functionality and display of Pokemon cards
@@ -53,88 +76,94 @@ const NoResultsMessage = styled.div`
  * - URL-based search parameters
  */
 function Search() {
-  // Get search query from URL parameters using React Router's useSearchParams
-  const [searchParams] = useSearchParams();
-  const query = searchParams.get("query") || "";
+  // Manage search params and input state
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchInput, setSearchInput] = useState(searchParams.get("query") || "");
 
   // Get Pokemon data and favorites from Redux store
-  // Uses useSelector hook to access the global state
   const pokemons = useSelector((state) => state.pokemon?.pokemons || []);
   const favorites = useSelector((state) => state.pokemon?.favorites || []);
 
+  // Update URL search params when input changes
+  useEffect(() => {
+    if (searchInput) {
+      setSearchParams({ query: searchInput });
+    } else {
+      setSearchParams({});
+    }
+  }, [searchInput, setSearchParams]);
+
   // Filter Pokemon based on search query using korean-regexp
-  // Supports both Korean and English name searches
   const filteredPokemons = pokemons.filter(pokemon => {
     // If no query, return all Pokemon
-    if (!query) return true;
+    if (!searchInput) return true;
 
     // Create Korean-friendly regex using korean-regexp library
-    // This handles Korean character variations and partial matches
-    const koreanRegex = getRegExp(query);
+    const koreanRegex = getRegExp(searchInput.toLowerCase());
 
     // Check both Korean and English names for matches
     return (
-      (pokemon.name_ko && koreanRegex.test(pokemon.name_ko)) || 
-      koreanRegex.test(pokemon.name)
+      (pokemon.name_ko && koreanRegex.test(pokemon.name_ko.toLowerCase())) || 
+      koreanRegex.test(pokemon.name.toLowerCase())
     );
   });
 
-  // Display message when no Pokemon match the search criteria
-  if (filteredPokemons.length === 0) {
-    return (
-      <SearchContainer>
+  return (
+    <SearchContainer>
+      <SearchInput 
+        type="text" 
+        placeholder="포켓몬 이름을 검색하세요 (한글/영어)"
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+      />
+
+      {filteredPokemons.length === 0 ? (
         <NoResultsMessage>
           검색 결과가 없습니다.
         </NoResultsMessage>
-      </SearchContainer>
-    );
-  }
-
-  // Render the main search results
-  return (
-    <SearchContainer>
-      <PokemonGrid>
-        {filteredPokemons.map((pokemon) => (
-          // Link each card to its detail page using React Router
-          <Link key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
-            <Card>
-              <PokemonImage>
-                {/* Display Pokemon official artwork from the API */}
-                <img
-                  src={pokemon.sprites.other["official-artwork"].front_default}
-                  alt={pokemon.name}
-                />
-                {/* Show heart icon if Pokemon is in favorites */}
-                {favorites.includes(pokemon.id) && (
-                  <span className="absolute top-2 right-2">❤️</span>
-                )}
-              </PokemonImage>
-              <PokemonInfo>
-                {/* Display Pokemon ID with leading zeros */}
-                <div className="pokemon-id">
-                  #{String(pokemon.id).padStart(3, "0")}
-                </div>
-                {/* Display Pokemon name, preferring Korean if available */}
-                <h3>{pokemon.name_ko || pokemon.name}</h3>
-                {/* Display Pokemon types with corresponding colors */}
-                <div className="types">
-                  {pokemon.types.map((type) => (
-                    <span
-                      key={type.type.name}
-                      className="type-badge"
-                      style={{
-                        backgroundColor: typeColors[type.type.name_ko] || '#777',
-                      }}
-                    >
-                      {type.type.name_ko || type.type.name}
-                    </span>
-                  ))}
-                </div>
-              </PokemonInfo>
-            </Card>
-          </Link>
-        ))}
-      </PokemonGrid>
+      ) : (
+        <PokemonGrid>
+          {filteredPokemons.map((pokemon) => (
+            <Link key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
+              <Card>
+                <PokemonImage>
+                  {/* Display Pokemon official artwork from the API */}
+                  <img
+                    src={pokemon.sprites.other["official-artwork"].front_default}
+                    alt={pokemon.name}
+                  />
+                  {/* Show heart icon if Pokemon is in favorites */}
+                  {favorites.includes(pokemon.id) && (
+                    <span className="absolute top-2 right-2">❤️</span>
+                  )}
+                </PokemonImage>
+                <PokemonInfo>
+                  {/* Display Pokemon ID with leading zeros */}
+                  <div className="pokemon-id">
+                    #{String(pokemon.id).padStart(3, "0")}
+                  </div>
+                  {/* Display Pokemon name, preferring Korean if available */}
+                  <h3>{pokemon.name_ko || pokemon.name}</h3>
+                  {/* Display Pokemon types with corresponding colors */}
+                  <div className="types">
+                    {pokemon.types.map((type) => (
+                      <span
+                        key={type.type.name}
+                        className="type-badge"
+                        style={{
+                          backgroundColor: typeColors[type.type.name_ko] || '#777',
+                        }}
+                      >
+                        {type.type.name_ko || type.type.name}
+                      </span>
+                    ))}
+                  </div>
+                </PokemonInfo>
+              </Card>
+            </Link>
+          ))}
+        </PokemonGrid>
+      )}
     </SearchContainer>
   );
 }
