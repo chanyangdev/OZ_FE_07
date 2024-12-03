@@ -16,7 +16,7 @@ import { typeColors } from "../styles/constants";
 function Detail() {
   const { id } = useParams();
   const pokemon = useSelector((state) =>
-    state.pokemons.find((p) => p.id === parseInt(id))
+    state.pokemon?.pokemons?.find((p) => p.id === parseInt(id))
   );
 
   if (!pokemon) return <div>Loading...</div>;
@@ -26,7 +26,7 @@ function Detail() {
       <DetailCard>
         <PokemonHeader>
           <span className="pokemon-id">#{String(pokemon.id).padStart(3, "0")}</span>
-          <h2>{pokemon.name}</h2>
+          <h2>{pokemon.name_ko || pokemon.name}</h2>
         </PokemonHeader>
 
         <FlipCard
@@ -40,7 +40,7 @@ function Detail() {
               key={index}
               color={typeColors[type.type.name] || '#777'}
             >
-              {type.type.name}
+              {type.type.name_ko || type.type.name}
             </TypeBadge>
           ))}
         </TypesContainer>
@@ -49,14 +49,10 @@ function Detail() {
           {pokemon.stats.map((stat, index) => (
             <StatBar
               key={index}
-              color={`hsl(${(index * 60) % 360}, 70%, 50%)`}
-              value={(stat.base_stat / 255) * 100}
-            >
-              <div className="stat-name">{stat.stat.name}</div>
-              <div className="stat-bar">
-                <div className="stat-fill"></div>
-              </div>
-            </StatBar>
+              label={stat.stat.name}
+              value={stat.base_stat}
+              max={255}
+            />
           ))}
         </StatsContainer>
       </DetailCard>

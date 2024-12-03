@@ -16,7 +16,7 @@ const HeartButton = styled.button`
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 5; // Lower z-index to stay below the filter bar
+  z-index: 5;
   
   &:hover {
     transform: scale(1.2);
@@ -30,7 +30,7 @@ const HeartButton = styled.button`
     line-height: 1;
     display: block;
     transform-origin: center;
-    animation: ${props => props.isFavorite ? 'pop 0.4s ease' : 'none'};
+    animation: ${({ $isFavorite }) => $isFavorite ? 'pop 0.4s ease' : 'none'};
   }
 
   @keyframes pop {
@@ -43,7 +43,7 @@ const HeartButton = styled.button`
 function FavoriteButton({ pokemonId }) {
   const dispatch = useDispatch();
   const isFavorite = useSelector((state) => 
-    state.favorites.includes(pokemonId)
+    state.pokemon?.favorites?.includes(pokemonId) || false
   );
 
   const handleClick = (e) => {
@@ -53,13 +53,9 @@ function FavoriteButton({ pokemonId }) {
   };
 
   return (
-    <HeartButton
-      onClick={handleClick}
-      isFavorite={isFavorite}
-      aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
-    >
-      <span className="heart">
-        {isFavorite ? "❤️" : "🤍"}
+    <HeartButton onClick={handleClick} $isFavorite={isFavorite}>
+      <span className="heart" aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}>
+        {isFavorite ? '❤️' : '🤍'}
       </span>
     </HeartButton>
   );
