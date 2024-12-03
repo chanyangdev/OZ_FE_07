@@ -1,10 +1,10 @@
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, PokemonImage, PokemonInfo } from "../styles/CardStyles";
+import FavoriteButton from "../components/FavoriteButton";
 
 function Main() {
   const pokemons = useSelector((state) => state.pokemons);
-  const favorites = useSelector((state) => state.favorites);
 
   return (
     <>
@@ -16,9 +16,7 @@ function Main() {
                 src={pokemon.sprites.other["official-artwork"].front_default}
                 alt={pokemon.name}
               />
-              {favorites.includes(pokemon.id) && (
-                <span className="absolute top-2 right-2">❤️</span>
-              )}
+              <FavoriteButton pokemonId={pokemon.id} />
             </PokemonImage>
             <PokemonInfo>
               <span className="text-gray-500">
