@@ -1,3 +1,13 @@
+/**
+ * Detail Page Styles Module
+ * Provides styled components for Pokemon detail page
+ * Features:
+ * - Responsive layout for detailed view
+ * - Stat chart and information styling
+ * - Adaptive design for different screen sizes
+ * - Type-based color theming
+ */
+
 import styled from "styled-components";
 
 export const DetailContainer = styled.div`

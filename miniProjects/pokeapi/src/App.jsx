@@ -48,14 +48,6 @@ function App() {
       <nav className="flex justify-center gap-4">
         <Link to={"/"}>메인</Link>
         <Link to={"/favorite"}>찜목록</Link>
-        <span>🔍</span>
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearch}
-          placeholder="포켓몬 검색"
-          className="border-b border-[darkgray] w-[200px] text-center"
-        />
       </nav>
 
       {/* Main content area with routes */}

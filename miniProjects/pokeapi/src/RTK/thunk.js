@@ -63,7 +63,8 @@ export const fetchMultiplePokemonById = createAsyncThunk(
           };
           return {
             type: {
-              name: typeTranslations[type.type.name] || type.type.name
+              ...type.type,
+              name_ko: typeTranslations[type.type.name] || type.type.name
             }
           };
         });

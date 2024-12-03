@@ -1,10 +1,24 @@
-import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
-import { Card, PokemonImage, PokemonInfo } from "../styles/CardStyles";
-import FavoriteButton from "../components/FavoriteButton";
-import TypeFilter from "../components/TypeFilter";
-import { useState } from "react";
+/**
+ * Main Pokemon Listing Page
+ * Displays a comprehensive list of Pokemon
+ * Features:
+ * - Infinite scroll
+ * - Pokemon grid view
+ * - Basic filtering and sorting
+ * - Performance optimized rendering
+ * - Advanced search functionality with URL-based search and korean-regexp
+ */
+
+import { useSelector, useDispatch } from "react-redux";
+import { useSearchParams } from "react-router-dom";
 import styled from 'styled-components';
+import { useState, useCallback, useEffect } from "react";
+import TypeFilter from "../components/TypeFilter";
+import SearchInput from "../components/shared/SearchInput";
+import PokemonGrid from "../components/shared/PokemonGrid";
+import { selectPokemons, selectFilteredPokemons } from '../RTK/selectors';
+import { fetchMultiplePokemonById } from '../RTK/thunk';
+import { filterPokemonsBySearch } from '../utils/searchUtils';
 
 const MainContainer = styled.div`
   width: 100%;
@@ -13,19 +27,50 @@ const MainContainer = styled.div`
   padding: 20px;
 `;
 
-const PokemonGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  margin-top: 20px;
+const LoadingMessage = styled.div`
+  text-align: center;
+  padding: 48px;
+  font-size: 1.2rem;
+  color: #666;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(8px);
+  margin: 24px auto;
+  max-width: 400px;
 `;
 
 function Main() {
   const pokemons = useSelector((state) => state.pokemons);
   const [selectedTypes, setSelectedTypes] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchInput, setSearchInput] = useState(searchParams.get("query") || "");
 
-  const handleTypeSelect = (koreanType) => {
+  const pokemons = useSelector(selectPokemons);
+  const favorites = useSelector(state => state.pokemon?.favorites || []);
+  const filteredPokemonsByType = useSelector(state => selectFilteredPokemons(state, selectedTypes));
+
+  // Update URL search params when input changes
+  useEffect(() => {
+    const currentParams = Object.fromEntries(searchParams.entries());
+    if (searchInput) {
+      setSearchParams({ ...currentParams, query: searchInput });
+    } else {
+      const { query, ...restParams } = currentParams;
+      setSearchParams(restParams);
+    }
+  }, [searchInput, setSearchParams, searchParams]);
+
+  // Filter pokemons by search
+  const filteredPokemons = filterPokemonsBySearch(filteredPokemonsByType, searchInput);
+
+  useEffect(() => {
+    if (pokemons.length === 0) {
+      dispatch(fetchMultiplePokemonById(151));
+    }
+  }, [dispatch, pokemons.length]);
+
+  const handleTypeSelect = useCallback((koreanType) => {
     setSelectedTypes(prev => {
       if (prev.includes(koreanType)) {
         return prev.filter(t => t !== koreanType);
@@ -41,38 +86,12 @@ function Main() {
 
   return (
     <MainContainer>
+      <SearchInput 
+        value={searchInput}
+        onChange={(e) => setSearchInput(e.target.value)}
+      />
       <TypeFilter selectedTypes={selectedTypes} onTypeSelect={handleTypeSelect} />
-      <PokemonGrid>
-        {filteredPokemons.map((pokemon) => (
-          <Link key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
-            <Card>
-              <PokemonImage>
-                <img
-                  src={pokemon.sprites.other["official-artwork"].front_default}
-                  alt={pokemon.name}
-                />
-                <FavoriteButton pokemonId={pokemon.id} />
-              </PokemonImage>
-              <PokemonInfo>
-                <span className="text-gray-500">
-                  #{String(pokemon.id).padStart(3, "0")}
-                </span>
-                <h3 className="font-bold">{pokemon.name}</h3>
-                <div className="flex gap-2">
-                  {pokemon.types.map((type, index) => (
-                    <span
-                      key={index}
-                      className="px-2 py-1 text-sm bg-gray-200 rounded"
-                    >
-                      {type.type.name}
-                    </span>
-                  ))}
-                </div>
-              </PokemonInfo>
-            </Card>
-          </Link>
-        ))}
-      </PokemonGrid>
+      <PokemonGrid pokemons={filteredPokemons} favorites={favorites} />
     </MainContainer>
   );
 }

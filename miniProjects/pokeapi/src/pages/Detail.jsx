@@ -1,3 +1,14 @@
+/**
+ * Pokemon Detail Page
+ * Displays comprehensive information about a specific Pokemon
+ * Features:
+ * - Detailed Pokemon stats and information
+ * - Type badges
+ * - Favorite toggle functionality
+ * - Responsive design
+ */
+
+import React from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import FlipCard from "../components/FlipCard";

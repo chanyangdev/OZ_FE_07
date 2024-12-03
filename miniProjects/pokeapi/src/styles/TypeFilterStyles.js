@@ -1,3 +1,13 @@
+/**
+ * Type Filter Styles Module
+ * Provides styled components for Pokemon type selection
+ * Features:
+ * - Color-coded type buttons
+ * - Dynamic type selection styling
+ * - Responsive layout
+ * - Interactive hover effects
+ */
+
 import styled from 'styled-components';
 
 export const TypeFilterContainer = styled.div`

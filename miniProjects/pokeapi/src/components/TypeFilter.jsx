@@ -1,3 +1,13 @@
+/**
+ * Type Filter Component
+ * Allows filtering Pokemon by their elemental types
+ * Features:
+ * - Dynamic type selection
+ * - Color-coded type buttons
+ * - URL-based type filtering
+ * - Responsive design
+ */
+
 import React from 'react';
 import { TypeFilterContainer, TypeButton, typeColors } from '../styles/TypeFilterStyles';
 
