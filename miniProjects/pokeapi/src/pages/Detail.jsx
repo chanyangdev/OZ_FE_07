@@ -13,6 +13,29 @@ import {
 } from "../styles/DetailStyles";
 import { typeColors } from "../styles/constants";
 
+// Mapping of stat names to more readable labels
+const statLabels = {
+  'hp': 'HP',
+  'attack': 'Attack',
+  'defense': 'Defense',
+  'special-attack': 'Sp. Atk',
+  'special-defense': 'Sp. Def',
+  'speed': 'Speed'
+};
+
+// Color gradient for stat bars
+const getStatColor = (statName) => {
+  const statColorMap = {
+    'hp': '#FF5959',
+    'attack': '#F5AC78',
+    'defense': '#FAE078',
+    'special-attack': '#9DB7F5',
+    'special-defense': '#A7DB8D',
+    'speed': '#FA92B2'
+  };
+  return statColorMap[statName] || '#777';
+};
+
 function Detail() {
   const { id } = useParams();
   const pokemon = useSelector((state) =>
@@ -35,24 +58,44 @@ function Detail() {
         />
 
         <TypesContainer>
-          {pokemon.types.map((type, index) => (
-            <TypeBadge
-              key={index}
-              color={typeColors[type.type.name] || '#777'}
-            >
-              {type.type.name_ko || type.type.name}
-            </TypeBadge>
-          ))}
+          {pokemon.types.map((type, index) => {
+            // Ensure we're using the correct Korean type name
+            const koreanTypeName = type.type.name_ko || type.type.name;
+            const typeColor = typeColors[koreanTypeName] || '#777';
+
+            return (
+              <TypeBadge
+                key={index}
+                color={typeColor}
+              >
+                {koreanTypeName}
+              </TypeBadge>
+            );
+          })}
         </TypesContainer>
 
         <StatsContainer>
+          <h3>Base Stats</h3>
           {pokemon.stats.map((stat, index) => (
             <StatBar
               key={index}
-              label={stat.stat.name}
-              value={stat.base_stat}
-              max={255}
-            />
+              color={getStatColor(stat.stat.name)}
+              value={(stat.base_stat / 255) * 100} // Normalize to 0-100%
+            >
+              <div className="stat-name">
+                {statLabels[stat.stat.name] || stat.stat.name}
+              </div>
+              <div className="stat-bar">
+                <div 
+                  className="stat-fill" 
+                  style={{ 
+                    width: `${(stat.base_stat / 255) * 100}%`,
+                    backgroundColor: getStatColor(stat.stat.name)
+                  }}
+                ></div>
+              </div>
+              <div className="stat-value">{stat.base_stat}</div>
+            </StatBar>
           ))}
         </StatsContainer>
       </DetailCard>
