@@ -1,79 +1,50 @@
 import styled from "styled-components";
 
 export const DetailContainer = styled.div`
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
-  padding: 40px 20px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 `;
 
-export const DetailCard = styled.div`
-  background: white;
-  border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+export const InfoSection = styled.div`
   width: 100%;
-  max-width: 800px;
-`;
-
-export const PokemonHeader = styled.div`
-  text-align: center;
-  margin-bottom: 30px;
-
-  h2 {
-    font-size: 2.5rem;
-    color: #333;
-    margin: 10px 0;
-  }
-
-  .pokemon-id {
-    color: #666;
-    font-size: 1.2rem;
-  }
-`;
-
-export const TypesContainer = styled.div`
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
   gap: 15px;
-  margin: 20px 0;
+
+  p {
+    text-align: center;
+    line-height: 1.6;
+  }
 `;
 
-export const TypeBadge = styled.span`
-  padding: 8px 20px;
-  border-radius: 25px;
-  color: white;
-  font-weight: 500;
-  font-size: 1.1rem;
-  background-color: ${props => props.color};
-`;
+export const StatsSection = styled.div`
+  width: 100%;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 
-export const StatsContainer = styled.div`
-  margin-top: 30px;
-`;
-
-export const StatBar = styled.div`
-  margin: 15px 0;
-
-  .stat-name {
-    font-weight: 500;
-    margin-bottom: 5px;
+  h3 {
+    margin-bottom: 15px;
+    text-align: center;
   }
 
-  .stat-bar {
-    height: 10px;
-    background: #f0f0f0;
-    border-radius: 5px;
-    overflow: hidden;
-
-    .stat-fill {
-      height: 100%;
-      background: ${props => props.color};
-      width: ${props => props.value}%;
-      transition: width 1s ease-out;
+  div {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+    
+    &:last-child {
+      border-bottom: none;
     }
   }
 `;
