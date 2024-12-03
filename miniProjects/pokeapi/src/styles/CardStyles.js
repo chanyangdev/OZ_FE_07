@@ -1,41 +1,37 @@
 import styled from "styled-components";
-import { Link } from "react-router-dom";
 
-export const CardContainer = styled(Link)`
-  width: 200px;
-  border: 1px solid #ddd;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: inherit;
-  padding: 15px;
-  border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: transform 0.2s, box-shadow 0.2s;
-  background: white;
-  
+export const Card = styled.div`
+  width: 250px;
+  border-radius: 10px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+  cursor: pointer;
+
   &:hover {
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
   }
+`;
+
+export const PokemonImage = styled.div`
+  position: relative;
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
 
   img {
-    width: 120px;
-    height: 120px;
-    image-rendering: pixelated;
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
   }
 `;
 
-export const PokemonName = styled.div`
-  font-size: 1.2rem;
-  font-weight: 500;
-  text-transform: capitalize;
-`;
-
-export const PokemonId = styled.div`
-  color: #666;
-  font-size: 0.9rem;
+export const PokemonInfo = styled.div`
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 `;

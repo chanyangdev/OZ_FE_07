@@ -1,9 +1,62 @@
-import React from 'react'
+import { useSearchParams } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Card, PokemonImage, PokemonInfo } from "../styles/CardStyles";
 
-const Search = () => {
+function Search() {
+  const [searchParams] = useSearchParams();
+  const query = searchParams.get("query") || "";
+  const pokemons = useSelector((state) => state.pokemons);
+  const favorites = useSelector((state) => state.favorites);
+
+  const filteredPokemons = pokemons.filter(pokemon => {
+    const searchRegex = new RegExp(query, "i");
+    return searchRegex.test(pokemon.name);
+  });
+
+  if (filteredPokemons.length === 0) {
+    return (
+      <div className="w-full mt-10 text-center">
+        검색 결과가 없습니다.
+      </div>
+    );
+  }
+
   return (
-    <div>Search</div>
-  )
+    <>
+      {filteredPokemons.map((pokemon) => (
+        <Link key={pokemon.id} to={`/pokemon/${pokemon.id}`}>
+          <Card>
+            <PokemonImage>
+              <img
+                src={pokemon.sprites.other["official-artwork"].front_default}
+                alt={pokemon.name}
+              />
+              {favorites.includes(pokemon.id) && (
+                <span className="absolute top-2 right-2">❤️</span>
+              )}
+            </PokemonImage>
+            <PokemonInfo>
+              <span className="text-gray-500">
+                #{String(pokemon.id).padStart(3, "0")}
+              </span>
+              <h3 className="font-bold">{pokemon.name}</h3>
+              <div className="flex gap-2">
+                {pokemon.types.map((type, index) => (
+                  <span
+                    key={index}
+                    className="px-2 py-1 text-sm bg-gray-200 rounded"
+                  >
+                    {type.type.name}
+                  </span>
+                ))}
+              </div>
+            </PokemonInfo>
+          </Card>
+        </Link>
+      ))}
+    </>
+  );
 }
 
-export default Search
+export default Search;

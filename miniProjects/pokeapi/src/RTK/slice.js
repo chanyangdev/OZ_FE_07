@@ -2,7 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchMultiplePokemonById } from "./thunk";
 
 const initialState = {
-  data: [],
+  pokemons: [],
+  favorites: [],
   loading: false,
   error: null,
 };
@@ -10,7 +11,17 @@ const initialState = {
 const pokemonSlice = createSlice({
   name: "pokemon",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleFavorite: (state, action) => {
+      const pokemonId = action.payload;
+      const index = state.favorites.indexOf(pokemonId);
+      if (index === -1) {
+        state.favorites.push(pokemonId);
+      } else {
+        state.favorites.splice(index, 1);
+      }
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchMultiplePokemonById.pending, (state) => {
@@ -18,7 +29,7 @@ const pokemonSlice = createSlice({
       })
       .addCase(fetchMultiplePokemonById.fulfilled, (state, action) => {
         state.loading = false;
-        state.data = action.payload;
+        state.pokemons = action.payload;
       })
       .addCase(fetchMultiplePokemonById.rejected, (state, action) => {
         state.loading = false;
@@ -27,4 +38,5 @@ const pokemonSlice = createSlice({
   },
 });
 
+export const { toggleFavorite } = pokemonSlice.actions;
 export default pokemonSlice.reducer;
