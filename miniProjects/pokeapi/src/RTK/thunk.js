@@ -4,7 +4,7 @@ import axios from "axios";
 export const fetchMultiplePokemonById = createAsyncThunk(
   "pokemon/fetchByIdStatus",
   async (amount) => {
-    // Create arrays of IDs in chunks of 20 for better performance
+    // Create batches of 20 Pokemon for efficient API calls
     const batchSize = 20;
     const batches = [];
     for (let i = 1; i <= amount; i += batchSize) {
@@ -17,24 +17,29 @@ export const fetchMultiplePokemonById = createAsyncThunk(
 
     const pokemons = [];
     
-    // Process each batch
+    // Process each batch of Pokemon
     for (const batch of batches) {
+      // Create array of promises for concurrent API calls
       const batchPromises = batch.map(id => Promise.all([
         axios.get(`https://pokeapi.co/api/v2/pokemon/${id}`),
         axios.get(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
       ]));
 
+      // Wait for all API calls in the batch to complete
       const batchResults = await Promise.all(batchPromises);
 
       batchResults.forEach(([pokemonResponse, speciesResponse]) => {
+        // Get Korean name or fallback to English name
         const koreanName = speciesResponse.data.names.find(
           (name) => name.language.name === "ko"
         )?.name || pokemonResponse.data.name;
 
+        // Get Korean description or empty string if not found
         const koreanDescription = speciesResponse.data.flavor_text_entries.find(
           (entry) => entry.language.name === "ko"
         )?.flavor_text || "";
 
+        // Translate Pokemon types to Korean
         const types = pokemonResponse.data.types.map((type) => {
           const typeTranslations = {
             normal: "노말",
@@ -63,6 +68,7 @@ export const fetchMultiplePokemonById = createAsyncThunk(
           };
         });
 
+        // Add processed Pokemon data to array
         pokemons.push({
           id: pokemonResponse.data.id,
           name: koreanName,
@@ -76,7 +82,7 @@ export const fetchMultiplePokemonById = createAsyncThunk(
       });
     }
 
-    // Sort by ID before returning
+    // Sort Pokemon by ID before returning
     return pokemons.sort((a, b) => a.id - b.id);
   }
 );
